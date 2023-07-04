@@ -1,6 +1,5 @@
 package softeer2nd;
 
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -12,14 +11,11 @@ public class PawnTest {
     @Test
     @DisplayName("흰색 폰과 검은색 폰이 생성되어야 한다")
     public void create() {
-        String colorWhite = "white";
-        String colorBlack = "black";
+        Pawn whitePawn = new Pawn(Pawn.WHITE_COLOR);
+        assertThat(verifyPawn(whitePawn, Pawn.WHITE_COLOR)).isEqualTo(true);
 
-        Pawn whitePawn = new Pawn(colorWhite);
-        assertThat(verifyPawn(whitePawn, colorWhite)).isEqualTo(true);
-
-        Pawn blackPawn = new Pawn(colorBlack);
-        assertThat(verifyPawn(blackPawn, colorBlack)).isEqualTo(true);
+        Pawn blackPawn = new Pawn(Pawn.BLACK_COLOR);
+        assertThat(verifyPawn(blackPawn, Pawn.BLACK_COLOR)).isEqualTo(true);
     }
 
     private boolean verifyPawn(Pawn pawn, String color) {
@@ -30,6 +26,6 @@ public class PawnTest {
     @DisplayName("폰 색상 미지정 시, 흰색 폰이 생성되어야 한다")
     public void create_기본생성자() throws Exception {
         Pawn pawn = new Pawn();
-        assertEquals("white", pawn.getColor());
+        assertEquals(Pawn.WHITE_COLOR, pawn.getColor());
     }
 }
