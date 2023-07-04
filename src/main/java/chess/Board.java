@@ -1,4 +1,4 @@
-package softeer2nd;
+package chess;
 
 import java.util.ArrayList;
 

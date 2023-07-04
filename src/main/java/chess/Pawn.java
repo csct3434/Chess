@@ -1,4 +1,4 @@
-package softeer2nd;
+package chess;
 
 public class Pawn {
 
