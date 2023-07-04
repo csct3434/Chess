@@ -1,7 +1,9 @@
 package softeer2nd;
 
 public class Pawn {
-    String color;
+
+
+    private String color;
 
     public Pawn() {
         this.color = "white";
