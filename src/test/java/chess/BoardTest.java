@@ -16,9 +16,14 @@ public class BoardTest {
 
     @Test
     public void initialize() throws Exception {
-        Board board = new Board();
         board.initialize();
         assertEquals("pppppppp", board.getWhitePawnsResult());
         assertEquals("PPPPPPPP", board.getBlackPawnsResult());
+    }
+    
+    @Test
+    public void print() throws Exception {
+        board.initialize();
+        System.out.println(board.print());
     }
 }
