@@ -1,42 +1,42 @@
 package chess;
 
-import chess.pieces.Pawn;
+import chess.pieces.Piece;
 
 import java.util.ArrayList;
 
 public class Board {
 
-    private ArrayList<Pawn> whitePawnList = new ArrayList<>();
-    private ArrayList<Pawn> blackPawnList = new ArrayList<>();
+    private ArrayList<Piece> whitePieceList = new ArrayList<>();
+    private ArrayList<Piece> blackPieceList = new ArrayList<>();
 
     public void initialize() {
         for(int i=0; i<8; i++) {
-            whitePawnList.add(new Pawn(Pawn.WHITE_COLOR, Pawn.WHITE_REPRESENTATION));
-            blackPawnList.add(new Pawn(Pawn.BLACK_COLOR, Pawn.BLACK_REPRESENTATION));
+            whitePieceList.add(new Piece(Piece.WHITE_COLOR, Piece.WHITE_REPRESENTATION));
+            blackPieceList.add(new Piece(Piece.BLACK_COLOR, Piece.BLACK_REPRESENTATION));
         }
     }
 
     public String getWhitePawnsResult() {
-        return getPawnsResult(Pawn.WHITE_COLOR);
+        return getPawnsResult(Piece.WHITE_COLOR);
     }
 
     public String getBlackPawnsResult() {
-        return getPawnsResult(Pawn.BLACK_COLOR);
+        return getPawnsResult(Piece.BLACK_COLOR);
     }
 
     private String getPawnsResult(String color) {
         StringBuilder sb = new StringBuilder();
 
-        ArrayList<Pawn> pawnList;
+        ArrayList<Piece> pieceList;
 
-        if(color.equals(Pawn.WHITE_COLOR)) {
-            pawnList = whitePawnList;
+        if(color.equals(Piece.WHITE_COLOR)) {
+            pieceList = whitePieceList;
         } else {
-            pawnList = blackPawnList;
+            pieceList = blackPieceList;
         }
 
-        for(Pawn pawn : pawnList) {
-            sb.append(pawn.getRepresentation());
+        for(Piece piece : pieceList) {
+            sb.append(piece.getRepresentation());
         }
 
         return sb.toString();

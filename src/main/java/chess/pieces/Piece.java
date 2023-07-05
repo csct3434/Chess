@@ -1,6 +1,6 @@
 package chess.pieces;
 
-public class Pawn {
+public class Piece {
 
     // 폰의 색상을 나타냅니다.
     public static final String WHITE_COLOR = "white";
@@ -13,12 +13,12 @@ public class Pawn {
     private String color;
     private char representation;
 
-    public Pawn() {
+    public Piece() {
         this.color = WHITE_COLOR;
         this.representation = WHITE_REPRESENTATION;
     }
 
-    public Pawn(String color, char representation) {
+    public Piece(String color, char representation) {
         this.color = color;
         this.representation = representation;
     }
