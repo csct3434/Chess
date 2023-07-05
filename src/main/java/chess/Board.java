@@ -41,4 +41,19 @@ public class Board {
 
         return sb.toString();
     }
+
+    public String print() {
+        StringBuilder sb = new StringBuilder();
+
+        sb.append("........\n");
+        sb.append(getBlackPawnsResult() + '\n');
+        sb.append("........\n");
+        sb.append("........\n");
+        sb.append("........\n");
+        sb.append("........\n");
+        sb.append(getWhitePawnsResult() + '\n');
+        sb.append("........\n");
+
+        return sb.toString();
+    }
 }
