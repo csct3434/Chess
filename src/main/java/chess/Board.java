@@ -17,19 +17,28 @@ public class Board {
     }
 
     public String getWhitePawnsResult() {
-        StringBuilder sb = new StringBuilder();
-        for(Pawn whitePawn : whitePawnList) {
-            sb.append(whitePawn.getRepresentation());
-        }
-        return sb.toString();
+        return getPawnsResult(Pawn.WHITE_COLOR);
     }
 
     public String getBlackPawnsResult() {
-        StringBuilder sb = new StringBuilder();
-        for(Pawn blackPawn : blackPawnList) {
-            sb.append(blackPawn.getRepresentation());
-        }
-        return sb.toString();
+        return getPawnsResult(Pawn.BLACK_COLOR);
     }
 
+    private String getPawnsResult(String color) {
+        StringBuilder sb = new StringBuilder();
+
+        ArrayList<Pawn> pawnList;
+
+        if(color.equals(Pawn.WHITE_COLOR)) {
+            pawnList = whitePawnList;
+        } else {
+            pawnList = blackPawnList;
+        }
+
+        for(Pawn pawn : pawnList) {
+            sb.append(pawn.getRepresentation());
+        }
+
+        return sb.toString();
+    }
 }
