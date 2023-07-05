@@ -29,11 +29,11 @@ public class Piece {
     public static final char BLACK_KING_REPRESENTATION = 'K';
 
     // 기물의 색상
-    private String color;
+    private final String color;
     // 기물의 종류
-    private String name;
+    private final String name;
     // 기물의 출력문자
-    private char representation;
+    private final char representation;
 
     private Piece(String color, String name, char representation) {
         this.color = color;
