@@ -4,26 +4,27 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static utils.StringUtils.appendNewLine;
 
 public class BoardTest {
-
-    Board board;
+    private Board board;
 
     @BeforeEach
-    public void init() {
+    public void setup() {
         board = new Board();
     }
 
     @Test
-    public void initialize() throws Exception {
+    public void create() throws Exception {
         board.initialize();
-        assertEquals("pppppppp", board.getWhitePawnsResult());
-        assertEquals("PPPPPPPP", board.getBlackPawnsResult());
-    }
-    
-    @Test
-    public void print() throws Exception {
-        board.initialize();
-        System.out.println(board.print());
+        assertEquals(32, board.pieceCount());
+        String blankRank = appendNewLine("........");
+        assertEquals(
+            appendNewLine("RNBQKBNR") +
+            appendNewLine("PPPPPPPP") +
+            blankRank + blankRank + blankRank + blankRank +
+            appendNewLine("pppppppp") +
+            appendNewLine("rnbqkbnr"),
+            board.showBoard());
     }
 }
