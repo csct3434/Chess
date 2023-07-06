@@ -13,6 +13,7 @@ public class ChessGame {
 
         while(true) {
             System.out.print("input: ");
+
             String command = sc.nextLine();
 
             if(command.equals("start")) {
@@ -20,7 +21,7 @@ public class ChessGame {
 
                 board.initialize();
                 System.out.println("[현재 체스판 상태]");
-                System.out.println(board.print());
+                System.out.println(board.showBoard());
             }
             else if(command.equals("end")){
                 System.out.println("게임을 종료합니다.");
