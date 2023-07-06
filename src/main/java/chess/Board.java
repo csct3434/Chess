@@ -82,4 +82,32 @@ public class Board {
         Rank rank = ranks.get(pos.getRankIndex());
         rank.setPiece(pos.getFileIndex(), piece);
     }
+
+    public double calculatePoint(Piece.Color color) {
+        double point = 0.0;
+
+        for (char file = 'a'; file <= 'h'; file++) {
+            int pawnsPerFile = 0;
+
+            for (char rank = '1'; rank <= '8'; rank++) {
+                String position = new StringBuilder().append(file).append(rank).toString();
+
+                Piece piece = findPiece(position);
+
+                if (piece.getColor() == color) {
+                    point += piece.getType().getDefaultPoint();
+
+                    if (piece.getType() == Piece.Type.PAWN) {
+                        pawnsPerFile++;
+                    }
+                }
+            }
+
+            if (pawnsPerFile > 1) {
+                point -= 0.5 * pawnsPerFile;
+            }
+        }
+
+        return point;
+    }
 }

@@ -9,21 +9,24 @@ public class Piece {
         WHITE, BLACK, NOCOLOR
     }
 
-    // 기물 종류 상수
+    // 기물 종류
     public enum Type {
-        PAWN('p'),
-        KNIGHT('n'),
-        ROOK('r'),
-        BISHOP('b'),
-        QUEEN('q'),
-        KING('k'),
-        NO_PIECE('.');
+        PAWN('p', 1.0),
+        KNIGHT('n', 2.5),
+        ROOK('r', 5.0),
+        BISHOP('b', 3.0),
+        QUEEN('q', 9.0),
+        KING('k', 0.0),
+        NO_PIECE('.', 0.0);
 
-        // 기물 식별자 상수
+        // 기물 식별자
         private final char representation;
+        // 기물 점수
+        private final double defaultPoint;
 
-        Type(char representation) {
+        Type(char representation, double defaultPoint) {
             this.representation = representation;
+            this.defaultPoint = defaultPoint;
         }
 
         public char getWhiteRepresentation() {
@@ -32,6 +35,10 @@ public class Piece {
 
         public char getBlackRepresentation() {
             return Character.toUpperCase(this.representation);
+        }
+
+        public double getDefaultPoint() {
+            return defaultPoint;
         }
     }
 
@@ -131,13 +138,13 @@ public class Piece {
 
     @Override
     public boolean equals(Object obj) {
-        if(obj == null) {
+        if (obj == null) {
             return false;
         }
-        if(this == obj) {
+        if (this == obj) {
             return true;
         }
-        if(getClass() != obj.getClass()) {
+        if (getClass() != obj.getClass()) {
             return false;
         }
 
