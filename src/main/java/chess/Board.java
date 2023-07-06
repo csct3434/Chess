@@ -20,10 +20,10 @@ public class Board {
         // Rank-2 기물 생성
         ranks.add(Rank.createWithWhitePawns());
         // Rank-3 ~ Rank-6 기물 생성
-        ranks.add(Rank.createWithBlanks());
-        ranks.add(Rank.createWithBlanks());
-        ranks.add(Rank.createWithBlanks());
-        ranks.add(Rank.createWithBlanks());
+        ranks.add(Rank.createEmptyRank());
+        ranks.add(Rank.createEmptyRank());
+        ranks.add(Rank.createEmptyRank());
+        ranks.add(Rank.createEmptyRank());
         // Rank-7 가물 생성
         ranks.add(Rank.createWithBlackPawns());
         // Rank-8 기물 생성
@@ -44,7 +44,7 @@ public class Board {
     public int countTotalPieces() {
         int totalPieceCount = 0;
 
-        for(Rank rank : ranks) {
+        for (Rank rank : ranks) {
             totalPieceCount += rank.countTotalPieces();
         }
 
@@ -54,7 +54,7 @@ public class Board {
     public int countPiecesOf(Piece.Color color, Piece.Type type) {
         int pieceCount = 0;
 
-        for(Rank rank : ranks) {
+        for (Rank rank : ranks) {
             pieceCount += rank.countPiecesOf(color, type);
         }
 
@@ -67,5 +67,19 @@ public class Board {
         Rank rank = ranks.get(pos.getRankIndex());
 
         return rank.getPiece(pos.getFileIndex());
+    }
+
+    public void initializeEmpty() {
+        ranks = new ArrayList<>();
+
+        for (int i = 0; i < LENGTH; i++) {
+            ranks.add(Rank.createEmptyRank());
+        }
+    }
+
+    public void move(String position, Piece piece) {
+        Position pos = new Position(position);
+        Rank rank = ranks.get(pos.getRankIndex());
+        rank.setPiece(pos.getFileIndex(), piece);
     }
 }

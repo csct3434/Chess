@@ -71,7 +71,7 @@ public class Rank {
         return new Rank(pieces);
     }
 
-    public static Rank createWithBlanks() {
+    public static Rank createEmptyRank() {
         List<Piece> pieces = new ArrayList<>();
 
         for (int i = 0; i < Board.LENGTH; i++) {
@@ -117,5 +117,9 @@ public class Rank {
 
     public Piece getPiece(int fileIndex) {
         return pieces.get(fileIndex);
+    }
+
+    public void setPiece(int fileIndex, Piece piece) {
+        pieces.set(fileIndex, piece);
     }
 }
