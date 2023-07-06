@@ -8,36 +8,28 @@ import static org.junit.jupiter.api.Assertions.*;
 public class PieceTest {
 
     @Test
-    @DisplayName("모든 종류의 기물 마다 흰색 말과 검은색 말이 생성되어야 한다")
+    @DisplayName("모든 기물별로 흰색 말과 검은색 말이 생성되어야 한다")
     public void create_piece() {
-        // 폰 기물 생성
-        verifyPiece(Piece.createWhitePawn(), Piece.Color.WHITE, Piece.Type.PAWN);
-        verifyPiece(Piece.createBlackPawn(), Piece.Color.BLACK, Piece.Type.PAWN);
+        verifyPiece(Piece.createWhitePawn(), Piece.createBlackPawn(), Piece.Type.PAWN);
+        verifyPiece(Piece.createWhiteKnight(), Piece.createBlackKnight(), Piece.Type.KNIGHT);
+        verifyPiece(Piece.createWhiteRook(), Piece.createBlackRook(), Piece.Type.ROOK);
+        verifyPiece(Piece.createWhiteBishop(), Piece.createBlackBishop(), Piece.Type.BISHOP);
+        verifyPiece(Piece.createWhiteQueen(), Piece.createBlackQueen(), Piece.Type.QUEEN);
+        verifyPiece(Piece.createWhiteKing(), Piece.createBlackKing(), Piece.Type.KING);
 
-        // 나이트 기물 생성
-        verifyPiece(Piece.createWhiteKnight(), Piece.Color.WHITE, Piece.Type.KNIGHT);
-        verifyPiece(Piece.createBlackKnight(), Piece.Color.BLACK, Piece.Type.KNIGHT);
-
-        // 룩 기물 생성
-        verifyPiece(Piece.createWhiteRock(), Piece.Color.WHITE, Piece.Type.ROCK);
-        verifyPiece(Piece.createBlackRock(), Piece.Color.BLACK, Piece.Type.ROCK);
-
-        // 비숍 기물 생성
-        verifyPiece(Piece.createWhiteBishop(), Piece.Color.WHITE, Piece.Type.BISHOP);
-        verifyPiece(Piece.createBlackBishop(), Piece.Color.BLACK, Piece.Type.BISHOP);
-
-        // 퀸 기물 생성
-        verifyPiece(Piece.createWhiteQueen(), Piece.Color.WHITE, Piece.Type.QUEEN);
-        verifyPiece(Piece.createBlackQueen(), Piece.Color.BLACK, Piece.Type.QUEEN);
-
-        // 킹 기물 생성
-        verifyPiece(Piece.createWhiteKing(), Piece.Color.WHITE, Piece.Type.KING);
-        verifyPiece(Piece.createBlackKing(), Piece.Color.BLACK, Piece.Type.KING);
+        // Blank 기물 생성 검증
+        Piece blank = Piece.createBlank();
+        assertFalse(blank.isWhite());
+        assertFalse(blank.isBlack());
+        assertEquals(Piece.Type.NO_PIECE, blank.getType());
     }
 
-    void verifyPiece(final Piece piece, final Piece.Color color, final Piece.Type type) {
-        assertEquals(color, piece.getColor());
-        assertEquals(type, piece.getType());
+    private void verifyPiece(final Piece whitePiece, final Piece blackPiece, final Piece.Type type) {
+        assertTrue(whitePiece.isWhite());
+        assertEquals(type, whitePiece.getType());
+
+        assertTrue(blackPiece.isBlack());
+        assertEquals(type, blackPiece.getType());
     }
 
     @Test
@@ -59,8 +51,8 @@ public class PieceTest {
         assertEquals('p', Piece.Type.PAWN.getWhiteRepresentation());
         assertEquals('P', Piece.Type.PAWN.getBlackRepresentation());
 
-        assertEquals('r', Piece.Type.ROCK.getWhiteRepresentation());
-        assertEquals('R', Piece.Type.ROCK.getBlackRepresentation());
+        assertEquals('r', Piece.Type.ROOK.getWhiteRepresentation());
+        assertEquals('R', Piece.Type.ROOK.getBlackRepresentation());
 
         assertEquals('n', Piece.Type.KNIGHT.getWhiteRepresentation());
         assertEquals('N', Piece.Type.KNIGHT.getBlackRepresentation());

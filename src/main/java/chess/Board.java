@@ -49,26 +49,26 @@ public class Board {
 
     // 폰 이외의 흰색 기물들(룩, 나이트, 비숍, 퀸, 킹)을 생성
     private void createWhiteMajorPieces() {
-        whitePieces.add(Piece.createWhiteRock());
+        whitePieces.add(Piece.createWhiteRook());
         whitePieces.add(Piece.createWhiteKnight());
         whitePieces.add(Piece.createWhiteBishop());
         whitePieces.add(Piece.createWhiteQueen());
         whitePieces.add(Piece.createWhiteKing());
         whitePieces.add(Piece.createWhiteBishop());
         whitePieces.add(Piece.createWhiteKnight());
-        whitePieces.add(Piece.createWhiteRock());
+        whitePieces.add(Piece.createWhiteRook());
     }
 
     // 폰 이외의 검정색 기물들(룩, 나이트, 비숍, 퀸, 킹)을 생성
     private void createBlackMajorPieces() {
-        blackPieces.add(Piece.createBlackRock());
+        blackPieces.add(Piece.createBlackRook());
         blackPieces.add(Piece.createBlackKnight());
         blackPieces.add(Piece.createBlackBishop());
         blackPieces.add(Piece.createBlackQueen());
         blackPieces.add(Piece.createBlackKing());
         blackPieces.add(Piece.createBlackBishop());
         blackPieces.add(Piece.createBlackKnight());
-        blackPieces.add(Piece.createBlackRock());
+        blackPieces.add(Piece.createBlackRook());
     }
 
     public int pieceCount() {

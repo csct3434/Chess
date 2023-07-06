@@ -11,7 +11,7 @@ public class Piece {
     public enum Type {
         PAWN('p'),
         KNIGHT('n'),
-        ROCK('r'),
+        ROOK('r'),
         BISHOP('b'),
         QUEEN('q'),
         KING('k'),
@@ -76,12 +76,12 @@ public class Piece {
         return new Piece(Color.BLACK, Type.KNIGHT);
     }
 
-    public static Piece createWhiteRock() {
-        return new Piece(Color.WHITE, Type.ROCK);
+    public static Piece createWhiteRook() {
+        return new Piece(Color.WHITE, Type.ROOK);
     }
 
-    public static Piece createBlackRock() {
-        return new Piece(Color.BLACK, Type.ROCK);
+    public static Piece createBlackRook() {
+        return new Piece(Color.BLACK, Type.ROOK);
     }
 
     public static Piece createWhiteBishop() {
@@ -106,6 +106,10 @@ public class Piece {
 
     public static Piece createBlackKing() {
         return new Piece(Color.BLACK, Type.KING);
+    }
+
+    public static Piece createBlank() {
+        return new Piece(Color.NOCOLOR, Type.NO_PIECE);
     }
 
     public boolean isWhite() {
