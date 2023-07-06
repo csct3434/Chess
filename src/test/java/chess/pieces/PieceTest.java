@@ -3,7 +3,7 @@ package chess.pieces;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class PieceTest {
 
@@ -46,9 +46,10 @@ public class PieceTest {
         Piece whitePawn = Piece.createWhitePawn();
         Piece blackPawn = Piece.createBlackPawn();
 
-        assertEquals(true, whitePawn.isWhite());
-        assertEquals(false, whitePawn.isBlack());
-        assertEquals(true, blackPawn.isBlack());
-        assertEquals(false, blackPawn.isWhite());
+        assertTrue(whitePawn.isWhite());
+        assertFalse(whitePawn.isBlack());
+
+        assertFalse(blackPawn.isWhite());
+        assertTrue(blackPawn.isBlack());
     }
 }
