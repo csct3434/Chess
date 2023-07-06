@@ -1,10 +1,12 @@
 package chess.pieces;
 
+import java.util.Objects;
+
 public class Piece {
 
     // 기물 색상 상수
     public enum Color {
-        WHITE, BLACK, NOCOLOR;
+        WHITE, BLACK, NOCOLOR
     }
 
     // 기물 종류 상수
@@ -18,7 +20,7 @@ public class Piece {
         NO_PIECE('.');
 
         // 기물 식별자 상수
-        private char representation;
+        private final char representation;
 
         Type(char representation) {
             this.representation = representation;
@@ -125,6 +127,27 @@ public class Piece {
 
     public boolean isBlack() {
         return (this.color.equals(Color.BLACK));
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if(obj == null) {
+            return false;
+        }
+        if(this == obj) {
+            return true;
+        }
+        if(getClass() != obj.getClass()) {
+            return false;
+        }
+
+        Piece piece = (Piece) obj;
+        return ((this.color == piece.color) && (this.type == piece.type));
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(color, type);
     }
 
 }

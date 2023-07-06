@@ -60,4 +60,12 @@ public class Board {
 
         return pieceCount;
     }
+
+    public Piece findPiece(String position) {
+        Position pos = new Position(position);
+
+        Rank rank = ranks.get(pos.getRankIndex());
+
+        return rank.getPiece(pos.getFileIndex());
+    }
 }

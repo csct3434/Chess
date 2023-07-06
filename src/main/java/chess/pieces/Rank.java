@@ -114,4 +114,8 @@ public class Rank {
 
         return pieceCount;
     }
+
+    public Piece getPiece(int fileIndex) {
+        return pieces.get(fileIndex);
+    }
 }

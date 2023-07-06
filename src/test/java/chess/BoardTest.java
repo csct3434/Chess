@@ -53,4 +53,14 @@ public class BoardTest {
         assertEquals(1, board.countPiecesOf(Piece.Color.WHITE, Piece.Type.KING));
         assertEquals(1, board.countPiecesOf(Piece.Color.BLACK, Piece.Type.KING));
     }
+
+    @Test
+    public void findPiece() throws Exception {
+        board.initialize();
+
+        assertEquals(Piece.createBlackRook(), board.findPiece("a8"));
+        assertEquals(Piece.createBlackRook(), board.findPiece("h8"));
+        assertEquals(Piece.createWhiteRook(), board.findPiece("a1"));
+        assertEquals(Piece.createWhiteRook(), board.findPiece("h1"));
+    }
 }
