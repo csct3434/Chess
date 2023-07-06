@@ -45,7 +45,7 @@ public class Piece {
         return color;
     }
 
-    public String getName() {
+    public String 정getName() {
         return name;
     }
 
@@ -102,11 +102,11 @@ public class Piece {
     }
 
     public boolean isWhite() {
-        return (this.color == WHITE_COLOR);
+        return (this.color.equals(WHITE_COLOR));
     }
 
     public boolean isBlack() {
-        return (this.color == BLACK_COLOR);
+        return (this.color.equals(BLACK_COLOR));
     }
 
 }
