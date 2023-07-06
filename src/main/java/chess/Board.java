@@ -1,5 +1,6 @@
 package chess;
 
+import chess.pieces.Piece;
 import chess.pieces.Rank;
 
 import java.util.ArrayList;
@@ -44,9 +45,19 @@ public class Board {
         int totalPieceCount = 0;
 
         for(Rank rank : ranks) {
-            totalPieceCount += rank.countPieces();
+            totalPieceCount += rank.countTotalPieces();
         }
 
         return totalPieceCount;
+    }
+
+    public int countPiecesOf(Piece.Color color, Piece.Type type) {
+        int pieceCount = 0;
+
+        for(Rank rank : ranks) {
+            pieceCount += rank.countPiecesOf(color, type);
+        }
+
+        return pieceCount;
     }
 }

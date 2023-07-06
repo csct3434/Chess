@@ -91,11 +91,23 @@ public class Rank {
         return StringUtils.appendNewLine(sb.toString());
     }
 
-    public int countPieces() {
+    public int countTotalPieces() {
         int pieceCount = 0;
 
-        for(Piece piece : pieces) {
-            if(piece.getType() != Piece.Type.NO_PIECE) {
+        for (Piece piece : pieces) {
+            if (piece.getType() != Piece.Type.NO_PIECE) {
+                pieceCount++;
+            }
+        }
+
+        return pieceCount;
+    }
+
+    public int countPiecesOf(Piece.Color color, Piece.Type type) {
+        int pieceCount = 0;
+
+        for (Piece piece : pieces) {
+            if (piece.getColor() == color && piece.getType() == type) {
                 pieceCount++;
             }
         }
