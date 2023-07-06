@@ -14,12 +14,13 @@ public class BoardTest {
     @BeforeEach
     public void setup() {
         board = new Board();
-        board.initialize();
     }
 
     @Test
     @DisplayName("초기화 된 체스판은 32개의 정렬된 기물들을 가진다")
     public void create() throws Exception {
+        board.initialize();
+
         assertEquals(32, board.countTotalPieces());
 
         String blankRank = appendNewLine("........");
@@ -35,6 +36,8 @@ public class BoardTest {
     @Test
     @DisplayName("체스판에 있는 특정 기물의 개수를 계산해야 한다")
     public void countSpecificPieces() {
+        board.initialize();
+
         assertEquals(8, board.countPiecesOf(Piece.Color.WHITE, Piece.Type.PAWN));
         assertEquals(8, board.countPiecesOf(Piece.Color.BLACK, Piece.Type.PAWN));
 
@@ -55,6 +58,7 @@ public class BoardTest {
     }
 
     @Test
+    @DisplayName("주어진 위치의 기물을 조회할 수 있어야 한다")
     public void findPiece() throws Exception {
         board.initialize();
 
@@ -62,5 +66,18 @@ public class BoardTest {
         assertEquals(Piece.createBlackRook(), board.findPiece("h8"));
         assertEquals(Piece.createWhiteRook(), board.findPiece("a1"));
         assertEquals(Piece.createWhiteRook(), board.findPiece("h1"));
+    }
+
+    @Test
+    @DisplayName("임의의 기물을 체스판의 특정 위치로 추가할 수 있어야 한다")
+    public void move() throws Exception {
+        board.initializeEmpty();
+
+        String position = "b5";
+        Piece piece = Piece.createBlackRook();
+        board.move(position, piece);
+
+        assertEquals(piece, board.findPiece(position));
+        System.out.println(board.showBoard());
     }
 }
