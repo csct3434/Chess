@@ -46,6 +46,8 @@ public class Board {
         }
     }
 
+
+    // 폰 이외의 흰색 기물들(룩, 나이트, 비숍, 퀸, 킹)을 생성
     private void createWhiteMajorPieces() {
         whitePieces.add(Piece.createWhiteRock());
         whitePieces.add(Piece.createWhiteKnight());
@@ -57,6 +59,7 @@ public class Board {
         whitePieces.add(Piece.createWhiteRock());
     }
 
+    // 폰 이외의 검정색 기물들(룩, 나이트, 비숍, 퀸, 킹)을 생성
     private void createBlackMajorPieces() {
         blackPieces.add(Piece.createBlackRock());
         blackPieces.add(Piece.createBlackKnight());
@@ -87,29 +90,31 @@ public class Board {
     }
 
     private String getWhitePiecesResult() {
-        StringBuilder sb = new StringBuilder();
-
-        for (int i = 0; i < whitePieces.size(); i++) {
-            sb.append(whitePieces.get(i).getRepresentation());
-            if (i == 7) {
-                sb.append(StringUtils.NEWLINE);
-            }
-        }
-
-        return appendNewLine(sb.toString());
+        return getPiecesResult(Piece.WHITE_COLOR);
     }
 
     private String getBlackPiecesResult() {
-        StringBuilder sb = new StringBuilder();
+        return getPiecesResult(Piece.BLACK_COLOR);
+    }
 
-        for (int i = 0; i < blackPieces.size(); i++) {
-            sb.append(blackPieces.get(i).getRepresentation());
-            if (i == 7) {
+    private String getPiecesResult(String color) {
+        StringBuilder sb = new StringBuilder();
+        List<Piece> pieces;
+
+        if(color.equals(Piece.WHITE_COLOR)) {
+            pieces = whitePieces;
+        }
+        else {
+            pieces = blackPieces;
+        }
+
+        for(int i = 0; i < pieces.size(); i++) {
+            sb.append(pieces.get(i).getRepresentation());
+            if(i == 7) {
                 sb.append(StringUtils.NEWLINE);
             }
         }
 
         return appendNewLine(sb.toString());
     }
-
 }
