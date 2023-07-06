@@ -40,13 +40,13 @@ public class Board {
         return sb.toString();
     }
 
-    public int pieceCount() {
-        int pieceCount = 0;
+    public int countTotalPieces() {
+        int totalPieceCount = 0;
 
         for(Rank rank : ranks) {
-            pieceCount += rank.pieceCount();
+            totalPieceCount += rank.countPieces();
         }
 
-        return pieceCount;
+        return totalPieceCount;
     }
 }

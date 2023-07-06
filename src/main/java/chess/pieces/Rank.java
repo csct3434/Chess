@@ -91,7 +91,15 @@ public class Rank {
         return StringUtils.appendNewLine(sb.toString());
     }
 
-    public int pieceCount() {
-        return pieces.size();
+    public int countPieces() {
+        int pieceCount = 0;
+
+        for(Piece piece : pieces) {
+            if(piece.getType() != Piece.Type.NO_PIECE) {
+                pieceCount++;
+            }
+        }
+
+        return pieceCount;
     }
 }
