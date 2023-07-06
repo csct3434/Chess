@@ -39,4 +39,16 @@ public class PieceTest {
         assertEquals(color, piece.getColor());
         assertEquals(representation, piece.getRepresentation());
     }
+
+    @Test
+    @DisplayName("검은색 말과 흰색 말은 구분되어야 한다")
+    public void colorTest() {
+        Piece whitePawn = Piece.createWhitePawn();
+        Piece blackPawn = Piece.createBlackPawn();
+
+        assertEquals(true, whitePawn.isWhite());
+        assertEquals(false, whitePawn.isBlack());
+        assertEquals(true, blackPawn.isBlack());
+        assertEquals(false, blackPawn.isWhite());
+    }
 }
