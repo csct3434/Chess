@@ -101,4 +101,12 @@ public class Piece {
         return new Piece(BLACK_COLOR, KING, BLACK_KING_REPRESENTATION);
     }
 
+    public boolean isWhite() {
+        return (this.color == WHITE_COLOR);
+    }
+
+    public boolean isBlack() {
+        return (this.color == BLACK_COLOR);
+    }
+
 }
