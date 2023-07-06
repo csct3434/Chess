@@ -90,18 +90,18 @@ public class Board {
     }
 
     private String getWhitePiecesResult() {
-        return getPiecesResult(Piece.WHITE_COLOR);
+        return getPiecesResult(Piece.Color.WHITE);
     }
 
     private String getBlackPiecesResult() {
-        return getPiecesResult(Piece.BLACK_COLOR);
+        return getPiecesResult(Piece.Color.BLACK);
     }
 
-    private String getPiecesResult(String color) {
+    private String getPiecesResult(Piece.Color color) {
         StringBuilder sb = new StringBuilder();
         List<Piece> pieces;
 
-        if(color.equals(Piece.WHITE_COLOR)) {
+        if(color.equals(Piece.Color.WHITE)) {
             pieces = whitePieces;
         }
         else {

@@ -11,33 +11,33 @@ public class PieceTest {
     @DisplayName("모든 종류의 기물 마다 흰색 말과 검은색 말이 생성되어야 한다")
     public void create_piece() {
         // 폰 기물 생성
-        verifyPiece(Piece.createWhitePawn(), Piece.WHITE_COLOR, Piece.WHITE_PAWN_REPRESENTATION);
-        verifyPiece(Piece.createBlackPawn(), Piece.BLACK_COLOR, Piece.BLACK_PAWN_REPRESENTATION);
+        verifyPiece(Piece.createWhitePawn(), Piece.Color.WHITE, Piece.Type.PAWN);
+        verifyPiece(Piece.createBlackPawn(), Piece.Color.BLACK, Piece.Type.PAWN);
 
         // 나이트 기물 생성
-        verifyPiece(Piece.createWhiteKnight(), Piece.WHITE_COLOR, Piece.WHITE_KNIGHT_REPRESENTATION);
-        verifyPiece(Piece.createBlackKnight(), Piece.BLACK_COLOR, Piece.BLACK_KNIGHT_REPRESENTATION);
+        verifyPiece(Piece.createWhiteKnight(), Piece.Color.WHITE, Piece.Type.KNIGHT);
+        verifyPiece(Piece.createBlackKnight(), Piece.Color.BLACK, Piece.Type.KNIGHT);
 
         // 룩 기물 생성
-        verifyPiece(Piece.createWhiteRock(), Piece.WHITE_COLOR, Piece.WHITE_ROCK_REPRESENTATION);
-        verifyPiece(Piece.createBlackRock(), Piece.BLACK_COLOR, Piece.BLACK_ROCK_REPRESENTATION);
+        verifyPiece(Piece.createWhiteRock(), Piece.Color.WHITE, Piece.Type.ROCK);
+        verifyPiece(Piece.createBlackRock(), Piece.Color.BLACK, Piece.Type.ROCK);
 
         // 비숍 기물 생성
-        verifyPiece(Piece.createWhiteBishop(), Piece.WHITE_COLOR, Piece.WHITE_BISHOP_REPRESENTATION);
-        verifyPiece(Piece.createBlackBishop(), Piece.BLACK_COLOR, Piece.BLACK_BISHOP_REPRESENTATION);
+        verifyPiece(Piece.createWhiteBishop(), Piece.Color.WHITE, Piece.Type.BISHOP);
+        verifyPiece(Piece.createBlackBishop(), Piece.Color.BLACK, Piece.Type.BISHOP);
 
         // 퀸 기물 생성
-        verifyPiece(Piece.createWhiteQueen(), Piece.WHITE_COLOR, Piece.WHITE_QUEEN_REPRESENTATION);
-        verifyPiece(Piece.createBlackQueen(), Piece.BLACK_COLOR, Piece.BLACK_QUEEN_REPRESENTATION);
+        verifyPiece(Piece.createWhiteQueen(), Piece.Color.WHITE, Piece.Type.QUEEN);
+        verifyPiece(Piece.createBlackQueen(), Piece.Color.BLACK, Piece.Type.QUEEN);
 
         // 킹 기물 생성
-        verifyPiece(Piece.createWhiteKing(), Piece.WHITE_COLOR, Piece.WHITE_KING_REPRESENTATION);
-        verifyPiece(Piece.createBlackKing(), Piece.BLACK_COLOR, Piece.BLACK_KING_REPRESENTATION);
+        verifyPiece(Piece.createWhiteKing(), Piece.Color.WHITE, Piece.Type.KING);
+        verifyPiece(Piece.createBlackKing(), Piece.Color.BLACK, Piece.Type.KING);
     }
 
-    void verifyPiece(final Piece piece, final String color, final char representation) {
+    void verifyPiece(final Piece piece, final Piece.Color color, final Piece.Type type) {
         assertEquals(color, piece.getColor());
-        assertEquals(representation, piece.getRepresentation());
+        assertEquals(type, piece.getType());
     }
 
     @Test
@@ -51,5 +51,30 @@ public class PieceTest {
 
         assertFalse(blackPawn.isWhite());
         assertTrue(blackPawn.isBlack());
+    }
+
+    @Test
+    @DisplayName("기물의 종류와 색상에 따라 고유한 식별자를 가진다")
+    public void getRepresentationPerPiece() throws Exception {
+        assertEquals('p', Piece.Type.PAWN.getWhiteRepresentation());
+        assertEquals('P', Piece.Type.PAWN.getBlackRepresentation());
+
+        assertEquals('r', Piece.Type.ROCK.getWhiteRepresentation());
+        assertEquals('R', Piece.Type.ROCK.getBlackRepresentation());
+
+        assertEquals('n', Piece.Type.KNIGHT.getWhiteRepresentation());
+        assertEquals('N', Piece.Type.KNIGHT.getBlackRepresentation());
+
+        assertEquals('b', Piece.Type.BISHOP.getWhiteRepresentation());
+        assertEquals('B', Piece.Type.BISHOP.getBlackRepresentation());
+
+        assertEquals('q', Piece.Type.QUEEN.getWhiteRepresentation());
+        assertEquals('Q', Piece.Type.QUEEN.getBlackRepresentation());
+
+        assertEquals('k', Piece.Type.KING.getWhiteRepresentation());
+        assertEquals('K', Piece.Type.KING.getBlackRepresentation());
+
+        assertEquals('.', Piece.Type.NO_PIECE.getWhiteRepresentation());
+        assertEquals('.', Piece.Type.NO_PIECE.getBlackRepresentation());
     }
 }
