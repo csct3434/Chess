@@ -17,7 +17,7 @@ public class BoardTest {
     @Test
     public void create() throws Exception {
         board.initialize();
-        assertEquals(32, board.pieceCount());
+        assertEquals(64, board.pieceCount());
         String blankRank = appendNewLine("........");
         assertEquals(
             appendNewLine("RNBQKBNR") +
