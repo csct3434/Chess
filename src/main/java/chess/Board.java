@@ -4,6 +4,7 @@ import chess.pieces.Piece;
 import chess.pieces.Rank;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class Board {
@@ -110,4 +111,32 @@ public class Board {
 
         return point;
     }
+
+    public List<Piece> sortPiecesByPointAscending(Piece.Color color) {
+        List<Piece> pieces = findPiecesByColor(color);
+
+        Collections.sort(pieces);
+
+        return pieces;
+    }
+
+
+    public List<Piece> sortPiecesByPointDescending(Piece.Color color) {
+        List<Piece> pieces = findPiecesByColor(color);
+
+        Collections.sort(pieces, Collections.reverseOrder());
+
+        return pieces;
+    }
+
+    private List<Piece> findPiecesByColor(Piece.Color color) {
+        List<Piece> pieces = new ArrayList<>();
+
+        for (Rank rank : ranks) {
+            pieces.addAll(rank.findPiecesByColor(color));
+        }
+
+        return pieces;
+    }
+
 }

@@ -2,7 +2,7 @@ package chess.pieces;
 
 import java.util.Objects;
 
-public class Piece {
+public class Piece implements Comparable<Piece> {
 
     // 기물 색상 상수
     public enum Color {
@@ -155,6 +155,11 @@ public class Piece {
     @Override
     public int hashCode() {
         return Objects.hash(color, type);
+    }
+
+    @Override
+    public int compareTo(Piece piece) {
+        return Double.compare(this.type.defaultPoint, piece.type.defaultPoint);
     }
 
 }

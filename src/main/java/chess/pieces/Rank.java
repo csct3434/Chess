@@ -122,4 +122,16 @@ public class Rank {
     public void setPiece(int fileIndex, Piece piece) {
         pieces.set(fileIndex, piece);
     }
+
+    public List<Piece> findPiecesByColor(Piece.Color color) {
+        List<Piece> findResult = new ArrayList<>();
+
+        for (Piece piece : pieces) {
+            if (piece.getColor() == color) {
+                findResult.add(piece);
+            }
+        }
+
+        return findResult;
+    }
 }
