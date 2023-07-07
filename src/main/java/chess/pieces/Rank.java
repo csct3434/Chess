@@ -134,4 +134,16 @@ public class Rank {
 
         return findResult;
     }
+
+    public double calculatePoint(Piece.Color color) {
+        double point = 0.0;
+
+        for(Piece piece : pieces) {
+            if(piece.getColor() == color) {
+                point += piece.getType().getDefaultPoint();
+            }
+        }
+
+        return point;
+    }
 }

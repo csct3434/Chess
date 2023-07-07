@@ -87,29 +87,46 @@ public class Board {
     public double calculatePoint(Piece.Color color) {
         double point = 0.0;
 
-        for (char file = 'a'; file <= 'h'; file++) {
-            int pawnsPerFile = 0;
+        point += calculatePlusPoint(color);
+        point += calculateMinusPoint(color);
 
-            for (char rank = '1'; rank <= '8'; rank++) {
-                String position = new StringBuilder().append(file).append(rank).toString();
+        return point;
+    }
 
-                Piece piece = findPiece(position);
+    private double calculatePlusPoint(Piece.Color color) {
+        double plusPoint = 0.0;
 
-                if (piece.getColor() == color) {
-                    point += piece.getType().getDefaultPoint();
+        for (Rank rank : ranks) {
+            plusPoint += rank.calculatePoint(color);
+        }
 
-                    if (piece.getType() == Piece.Type.PAWN) {
-                        pawnsPerFile++;
-                    }
-                }
-            }
+        return plusPoint;
+    }
 
-            if (pawnsPerFile > 1) {
-                point -= 0.5 * pawnsPerFile;
+    private double calculateMinusPoint(Piece.Color color) {
+        double minusPoint = 0.0;
+
+        for (int fileIndex = 0; fileIndex < 8; fileIndex++) {
+            int pawnCnt = countPawnsInFile(fileIndex, color);
+            if (pawnCnt > 1) {
+                minusPoint -= 0.5 * pawnCnt;
             }
         }
 
-        return point;
+        return minusPoint;
+    }
+
+    private int countPawnsInFile(int fileIndex, Piece.Color color) {
+        int count = 0;
+
+        for (int rankIndex = 0; rankIndex < LENGTH; rankIndex++) {
+            Piece piece = ranks.get(rankIndex).getPiece(fileIndex);
+            if (piece.getColor() == color && piece.getType() == Piece.Type.PAWN) {
+                count++;
+            }
+        }
+
+        return count;
     }
 
     public List<Piece> sortPiecesByPointAscending(Piece.Color color) {
