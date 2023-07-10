@@ -1,5 +1,6 @@
 package chess.pieces;
 
+import chess.Position;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -10,15 +11,15 @@ public class PieceTest {
     @Test
     @DisplayName("모든 기물별로 흰색 말과 검은색 말이 생성되어야 한다")
     public void create_piece() {
-        verifyPiece(Piece.createWhitePawn(), Piece.createBlackPawn(), Piece.Type.PAWN);
-        verifyPiece(Piece.createWhiteKnight(), Piece.createBlackKnight(), Piece.Type.KNIGHT);
-        verifyPiece(Piece.createWhiteRook(), Piece.createBlackRook(), Piece.Type.ROOK);
-        verifyPiece(Piece.createWhiteBishop(), Piece.createBlackBishop(), Piece.Type.BISHOP);
-        verifyPiece(Piece.createWhiteQueen(), Piece.createBlackQueen(), Piece.Type.QUEEN);
-        verifyPiece(Piece.createWhiteKing(), Piece.createBlackKing(), Piece.Type.KING);
+        verifyPiece(Piece.createWhitePawn(new Position("a1")), Piece.createBlackPawn(new Position("a1")), Piece.Type.PAWN);
+        verifyPiece(Piece.createWhiteKnight(new Position("a1")), Piece.createBlackKnight(new Position("a1")), Piece.Type.KNIGHT);
+        verifyPiece(Piece.createWhiteRook(new Position("a1")), Piece.createBlackRook(new Position("a1")), Piece.Type.ROOK);
+        verifyPiece(Piece.createWhiteBishop(new Position("a1")), Piece.createBlackBishop(new Position("a1")), Piece.Type.BISHOP);
+        verifyPiece(Piece.createWhiteQueen(new Position("a1")), Piece.createBlackQueen(new Position("a1")), Piece.Type.QUEEN);
+        verifyPiece(Piece.createWhiteKing(new Position("a1")), Piece.createBlackKing(new Position("a1")), Piece.Type.KING);
 
         // Blank 기물 생성 검증
-        Piece blank = Piece.createBlank();
+        Piece blank = Piece.createBlank(new Position("a1"));
         assertFalse(blank.isWhite());
         assertFalse(blank.isBlack());
         assertEquals(Piece.Type.NO_PIECE, blank.getType());
@@ -35,8 +36,8 @@ public class PieceTest {
     @Test
     @DisplayName("검은색 말과 흰색 말은 구분되어야 한다")
     public void colorTest() {
-        Piece whitePawn = Piece.createWhitePawn();
-        Piece blackPawn = Piece.createBlackPawn();
+        Piece whitePawn = Piece.createWhitePawn(new Position("a1"));
+        Piece blackPawn = Piece.createBlackPawn(new Position("a1"));
 
         assertTrue(whitePawn.isWhite());
         assertFalse(whitePawn.isBlack());
