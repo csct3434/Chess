@@ -1,7 +1,9 @@
 package chess;
 
+import chess.pieces.Color;
 import chess.pieces.Piece;
 import chess.pieces.Rank;
+import chess.pieces.Type;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -55,7 +57,7 @@ public class Board {
         return totalPieceCount;
     }
 
-    public int countPiecesByColorAndType(Piece.Color color, Piece.Type type) {
+    public int countPiecesByColorAndType(Color color, Type type) {
         int pieceCount = 0;
         for (Rank rank : ranks) {
             pieceCount += rank.countPiecesOf(color, type);
@@ -63,11 +65,11 @@ public class Board {
         return pieceCount;
     }
 
-    public int countPawnsByColorInFile(Piece.Color color, int fileIndex) {
+    public int countPawnsByColorInFile(Color color, int fileIndex) {
         int count = 0;
         for (Rank rank : ranks) {
             Piece piece = rank.getPiece(fileIndex);
-            if (piece.getColor() == color && piece.getType() == Piece.Type.PAWN) {
+            if (piece.getColor() == color && piece.getType() == Type.PAWN) {
                 count++;
             }
         }
@@ -80,7 +82,7 @@ public class Board {
         return rank.getPiece(pos.getFileIndex());
     }
 
-    public List<Piece> findPiecesByColor(Piece.Color color) {
+    public List<Piece> findPiecesByColor(Color color) {
         List<Piece> pieces = new ArrayList<>();
         for (Rank rank : ranks) {
             pieces.addAll(rank.findPiecesByColor(color));

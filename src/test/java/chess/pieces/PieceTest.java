@@ -11,21 +11,21 @@ public class PieceTest {
     @Test
     @DisplayName("모든 기물별로 흰색 말과 검은색 말이 생성되어야 한다")
     public void create_piece() {
-        verifyPiece(Piece.createWhitePawn(new Position("a1")), Piece.createBlackPawn(new Position("a1")), Piece.Type.PAWN);
-        verifyPiece(Piece.createWhiteKnight(new Position("a1")), Piece.createBlackKnight(new Position("a1")), Piece.Type.KNIGHT);
-        verifyPiece(Piece.createWhiteRook(new Position("a1")), Piece.createBlackRook(new Position("a1")), Piece.Type.ROOK);
-        verifyPiece(Piece.createWhiteBishop(new Position("a1")), Piece.createBlackBishop(new Position("a1")), Piece.Type.BISHOP);
-        verifyPiece(Piece.createWhiteQueen(new Position("a1")), Piece.createBlackQueen(new Position("a1")), Piece.Type.QUEEN);
-        verifyPiece(Piece.createWhiteKing(new Position("a1")), Piece.createBlackKing(new Position("a1")), Piece.Type.KING);
+        verifyPiece(Piece.createWhitePawn(new Position("a1")), Piece.createBlackPawn(new Position("a1")), Type.PAWN);
+        verifyPiece(Piece.createWhiteKnight(new Position("a1")), Piece.createBlackKnight(new Position("a1")), Type.KNIGHT);
+        verifyPiece(Piece.createWhiteRook(new Position("a1")), Piece.createBlackRook(new Position("a1")), Type.ROOK);
+        verifyPiece(Piece.createWhiteBishop(new Position("a1")), Piece.createBlackBishop(new Position("a1")), Type.BISHOP);
+        verifyPiece(Piece.createWhiteQueen(new Position("a1")), Piece.createBlackQueen(new Position("a1")), Type.QUEEN);
+        verifyPiece(Piece.createWhiteKing(new Position("a1")), Piece.createBlackKing(new Position("a1")), Type.KING);
 
         // Blank 기물 생성 검증
         Piece blank = Piece.createBlank(new Position("a1"));
         assertFalse(blank.isWhite());
         assertFalse(blank.isBlack());
-        assertEquals(Piece.Type.NO_PIECE, blank.getType());
+        assertEquals(Type.NO_PIECE, blank.getType());
     }
 
-    private void verifyPiece(final Piece whitePiece, final Piece blackPiece, final Piece.Type type) {
+    private void verifyPiece(final Piece whitePiece, final Piece blackPiece, final Type type) {
         assertTrue(whitePiece.isWhite());
         assertEquals(type, whitePiece.getType());
 
@@ -49,25 +49,25 @@ public class PieceTest {
     @Test
     @DisplayName("기물의 종류와 색상에 따라 고유한 식별자를 가진다")
     public void getRepresentationPerPiece() throws Exception {
-        assertEquals('p', Piece.Type.PAWN.getWhiteRepresentation());
-        assertEquals('P', Piece.Type.PAWN.getBlackRepresentation());
+        assertEquals('p', Type.PAWN.getWhiteRepresentation());
+        assertEquals('P', Type.PAWN.getBlackRepresentation());
 
-        assertEquals('r', Piece.Type.ROOK.getWhiteRepresentation());
-        assertEquals('R', Piece.Type.ROOK.getBlackRepresentation());
+        assertEquals('r', Type.ROOK.getWhiteRepresentation());
+        assertEquals('R', Type.ROOK.getBlackRepresentation());
 
-        assertEquals('n', Piece.Type.KNIGHT.getWhiteRepresentation());
-        assertEquals('N', Piece.Type.KNIGHT.getBlackRepresentation());
+        assertEquals('n', Type.KNIGHT.getWhiteRepresentation());
+        assertEquals('N', Type.KNIGHT.getBlackRepresentation());
 
-        assertEquals('b', Piece.Type.BISHOP.getWhiteRepresentation());
-        assertEquals('B', Piece.Type.BISHOP.getBlackRepresentation());
+        assertEquals('b', Type.BISHOP.getWhiteRepresentation());
+        assertEquals('B', Type.BISHOP.getBlackRepresentation());
 
-        assertEquals('q', Piece.Type.QUEEN.getWhiteRepresentation());
-        assertEquals('Q', Piece.Type.QUEEN.getBlackRepresentation());
+        assertEquals('q', Type.QUEEN.getWhiteRepresentation());
+        assertEquals('Q', Type.QUEEN.getBlackRepresentation());
 
-        assertEquals('k', Piece.Type.KING.getWhiteRepresentation());
-        assertEquals('K', Piece.Type.KING.getBlackRepresentation());
+        assertEquals('k', Type.KING.getWhiteRepresentation());
+        assertEquals('K', Type.KING.getBlackRepresentation());
 
-        assertEquals('.', Piece.Type.NO_PIECE.getWhiteRepresentation());
-        assertEquals('.', Piece.Type.NO_PIECE.getBlackRepresentation());
+        assertEquals('.', Type.NO_PIECE.getWhiteRepresentation());
+        assertEquals('.', Type.NO_PIECE.getBlackRepresentation());
     }
 }

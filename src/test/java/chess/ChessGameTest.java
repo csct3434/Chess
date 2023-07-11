@@ -1,5 +1,6 @@
 package chess;
 
+import chess.pieces.Color;
 import chess.pieces.Piece;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;

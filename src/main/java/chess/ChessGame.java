@@ -1,5 +1,6 @@
 package chess;
 
+import chess.pieces.Color;
 import chess.pieces.Piece;
 
 import java.util.Collections;
@@ -45,16 +46,16 @@ public class ChessGame {
         board.addPiece(position.toSquare(), piece.cloneWithoutPosition(position));
     }
 
-    public double calculatePoint(Piece.Color color) {
+    public double calculatePoint(Color color) {
         return calculatePlusPoint(color) + calculatePenaltyPoint(color);
     }
 
-    private double calculatePlusPoint(Piece.Color color) {
+    private double calculatePlusPoint(Color color) {
         double plusPoint = board.getRanks().stream().mapToDouble(rank -> rank.calculatePoint(color)).sum();
         return plusPoint;
     }
 
-    private double calculatePenaltyPoint(Piece.Color color) {
+    private double calculatePenaltyPoint(Color color) {
         double penaltyPoint = 0.0;
         for (int fileIndex = 0; fileIndex < 8; fileIndex++) {
             int pawnCnt = board.countPawnsByColorInFile(color, fileIndex);
@@ -65,13 +66,13 @@ public class ChessGame {
         return penaltyPoint;
     }
 
-    public List<Piece> sortPiecesByPointAscending(Piece.Color color) {
+    public List<Piece> sortPiecesByPointAscending(Color color) {
         List<Piece> pieces = board.findPiecesByColor(color);
         Collections.sort(pieces);
         return pieces;
     }
 
-    public List<Piece> sortPiecesByPointDescending(Piece.Color color) {
+    public List<Piece> sortPiecesByPointDescending(Color color) {
         List<Piece> pieces = board.findPiecesByColor(color);
         Collections.sort(pieces, Collections.reverseOrder());
         return pieces;

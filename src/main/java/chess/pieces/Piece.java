@@ -5,45 +5,6 @@ import chess.Position;
 import java.util.Objects;
 
 public class Piece implements Comparable<Piece> {
-
-    // 기물 색상 상수
-    public enum Color {
-        WHITE, BLACK, NOCOLOR
-    }
-
-    // 기물 종류
-    public enum Type {
-        PAWN('p', 1.0),
-        KNIGHT('n', 2.5),
-        ROOK('r', 5.0),
-        BISHOP('b', 3.0),
-        QUEEN('q', 9.0),
-        KING('k', 0.0),
-        NO_PIECE('.', 0.0);
-
-        // 기물 식별자
-        private final char representation;
-        // 기물 점수
-        private final double defaultPoint;
-
-        Type(char representation, double defaultPoint) {
-            this.representation = representation;
-            this.defaultPoint = defaultPoint;
-        }
-
-        public char getWhiteRepresentation() {
-            return this.representation;
-        }
-
-        public char getBlackRepresentation() {
-            return Character.toUpperCase(this.representation);
-        }
-
-        public double getDefaultPoint() {
-            return defaultPoint;
-        }
-    }
-
     // 기물의 색상
     private final Color color;
     // 기물의 종류
@@ -172,10 +133,10 @@ public class Piece implements Comparable<Piece> {
 
     @Override
     public int compareTo(Piece piece) {
-        if (Double.compare(this.type.defaultPoint, piece.type.defaultPoint) == 0) {
+        if (Double.compare(this.type.getDefaultPoint(), piece.type.getDefaultPoint()) == 0) {
             return this.position.toSquare().compareTo(piece.position.toSquare());
         }
-        return Double.compare(this.type.defaultPoint, piece.type.defaultPoint);
+        return Double.compare(this.type.getDefaultPoint(), piece.type.getDefaultPoint());
     }
 
 }

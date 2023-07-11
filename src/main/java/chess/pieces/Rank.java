@@ -107,7 +107,7 @@ public class Rank {
         int pieceCount = 0;
 
         for (Piece piece : pieces) {
-            if (piece.getType() != Piece.Type.NO_PIECE) {
+            if (piece.getType() != Type.NO_PIECE) {
                 pieceCount++;
             }
         }
@@ -115,7 +115,7 @@ public class Rank {
         return pieceCount;
     }
 
-    public int countPiecesOf(Piece.Color color, Piece.Type type) {
+    public int countPiecesOf(Color color, Type type) {
         int pieceCount = 0;
 
         for (Piece piece : pieces) {
@@ -135,7 +135,7 @@ public class Rank {
         pieces.set(fileIndex, piece);
     }
 
-    public List<Piece> findPiecesByColor(Piece.Color color) {
+    public List<Piece> findPiecesByColor(Color color) {
         List<Piece> findResult = new ArrayList<>();
 
         for (Piece piece : pieces) {
@@ -147,7 +147,7 @@ public class Rank {
         return findResult;
     }
 
-    public double calculatePoint(Piece.Color color) {
+    public double calculatePoint(Color color) {
         double point = 0.0;
 
         for (Piece piece : pieces) {
