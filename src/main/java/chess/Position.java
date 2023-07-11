@@ -9,22 +9,18 @@ public class Position {
         return new StringBuilder().append((char) ('a' + fileIndex)).append((char) ('1' + rankIndex)).toString();
     }
 
-    public Position(String position) {
+    public Position(String position) throws IllegalArgumentException {
         verifyPosition(position);
         this.fileIndex = position.charAt(0) - 'a';
         this.rankIndex = position.charAt(1) - '1';
     }
 
-    private void verifyPosition(String position) {
-        char file = position.charAt(0);
-        char rank = position.charAt(1);
+    private void verifyPosition(String square) throws IllegalArgumentException {
+        char file = square.charAt(0);
+        char rank = square.charAt(1);
 
-        if (!(file >= 'a' && file <= 'h'))
-            throw new IllegalArgumentException("열 좌표가 유효하지 않습니다.");
-
-        if (!(rank >= '1' && rank <= '8')) {
-            throw new IllegalArgumentException("행 좌표가 유효하지 않습니다.");
-        }
+        if (!(file >= 'a' && file <= 'h') || !(rank >= '1' && rank <= '8'))
+            throw new IllegalArgumentException("유효하지 않은 좌표입니다 : " + square);
     }
 
     public int getRankIndex() {
@@ -37,7 +33,7 @@ public class Position {
 
     public String toSquare() {
         StringBuilder sb = new StringBuilder();
-        return sb.append('a' + this.fileIndex).append('1' + this.rankIndex).toString();
+        return sb.append((char) ('a' + this.fileIndex)).append((char) ('1' + this.rankIndex)).toString();
     }
 
     @Override

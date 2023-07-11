@@ -1,68 +1,61 @@
 package chess;
 
-import chess.pieces.Piece;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import java.util.List;
-
 import static chess.pieces.Piece.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static utils.StringUtils.appendNewLine;
 
-public class BoardTest {
-    private Board board;
+class BoardTest {
+    Board board;
 
     @BeforeEach
-    public void setup() {
+    void setup() {
         board = new Board();
     }
 
     @Test
-    @DisplayName("초기화 된 체스판은 32개의 정렬된 기물들을 가진다")
-    public void create() throws Exception {
+    @DisplayName("초기화 된 체스판은 32개의 기물을 가진다")
+    void create() throws Exception {
         board.initialize();
-
         assertEquals(32, board.countTotalPieces());
-
-        String blankRank = appendNewLine("........");
-        assertEquals(
-                appendNewLine("RNBQKBNR") +
-                        appendNewLine("PPPPPPPP") +
-                        blankRank + blankRank + blankRank + blankRank +
-                        appendNewLine("pppppppp") +
-                        appendNewLine("rnbqkbnr"),
-                board.showBoard());
     }
 
     @Test
-    @DisplayName("체스판에 있는 특정 기물의 개수를 계산해야 한다")
-    public void countSpecificPieces() {
+    @DisplayName("빈 체스판의 0개의 기물을 가진다")
+    void createEmpty() throws Exception {
+        board.initializeEmpty();
+        assertEquals(0, board.countTotalPieces());
+    }
+
+    @Test
+    @DisplayName("초기화된 체스판의 기물의 개수와 종류를 확인한다")
+    void countSpecificPieces() {
         board.initialize();
 
-        assertEquals(8, board.countPiecesOf(Color.WHITE, Type.PAWN));
-        assertEquals(8, board.countPiecesOf(Color.BLACK, Type.PAWN));
+        assertEquals(8, board.countPiecesByColorAndType(Color.WHITE, Type.PAWN));
+        assertEquals(8, board.countPiecesByColorAndType(Color.BLACK, Type.PAWN));
 
-        assertEquals(2, board.countPiecesOf(Color.WHITE, Type.ROOK));
-        assertEquals(2, board.countPiecesOf(Color.BLACK, Type.ROOK));
+        assertEquals(2, board.countPiecesByColorAndType(Color.WHITE, Type.ROOK));
+        assertEquals(2, board.countPiecesByColorAndType(Color.BLACK, Type.ROOK));
 
-        assertEquals(2, board.countPiecesOf(Color.WHITE, Type.KNIGHT));
-        assertEquals(2, board.countPiecesOf(Color.BLACK, Type.KNIGHT));
+        assertEquals(2, board.countPiecesByColorAndType(Color.WHITE, Type.KNIGHT));
+        assertEquals(2, board.countPiecesByColorAndType(Color.BLACK, Type.KNIGHT));
 
-        assertEquals(2, board.countPiecesOf(Color.WHITE, Type.BISHOP));
-        assertEquals(2, board.countPiecesOf(Color.BLACK, Type.BISHOP));
+        assertEquals(2, board.countPiecesByColorAndType(Color.WHITE, Type.BISHOP));
+        assertEquals(2, board.countPiecesByColorAndType(Color.BLACK, Type.BISHOP));
 
-        assertEquals(1, board.countPiecesOf(Color.WHITE, Type.QUEEN));
-        assertEquals(1, board.countPiecesOf(Color.BLACK, Type.QUEEN));
+        assertEquals(1, board.countPiecesByColorAndType(Color.WHITE, Type.QUEEN));
+        assertEquals(1, board.countPiecesByColorAndType(Color.BLACK, Type.QUEEN));
 
-        assertEquals(1, board.countPiecesOf(Color.WHITE, Type.KING));
-        assertEquals(1, board.countPiecesOf(Color.BLACK, Type.KING));
+        assertEquals(1, board.countPiecesByColorAndType(Color.WHITE, Type.KING));
+        assertEquals(1, board.countPiecesByColorAndType(Color.BLACK, Type.KING));
     }
 
     @Test
-    @DisplayName("주어진 위치의 기물을 조회할 수 있어야 한다")
-    public void findPiece() throws Exception {
+    @DisplayName("좌표를 사용하여 기물을 조회한다")
+    void findPiece() throws Exception {
         board.initialize();
 
         assertEquals(createBlackRook(new Position("a8")), board.findPiece("a8"));
@@ -72,105 +65,14 @@ public class BoardTest {
     }
 
     @Test
-    @DisplayName("현재 남아있는 기물에 따라 점수를 계산할 수 있어야 한다")
-    public void calculatePoint() throws Exception {
-        board.initializeEmpty();
-
-        addPiece("b6", createBlackPawn(new Position("b6")));
-        addPiece("e6", createBlackQueen(new Position("e6")));
-        addPiece("b8", createBlackKing(new Position("b8")));
-        addPiece("c8", createBlackRook(new Position("c8")));
-
-        addPiece("f2", createWhitePawn(new Position("f2")));
-        addPiece("g2", createWhitePawn(new Position("g2")));
-        addPiece("e1", createWhiteRook(new Position("e1")));
-        addPiece("f1", createWhiteKing(new Position("f1")));
-
-        assertEquals(15.0, board.calculatePoint(Color.BLACK), 0.01);
-        assertEquals(7.0, board.calculatePoint(Color.WHITE), 0.01);
-
-        System.out.println(board.showBoard());
-    }
-
-    private void addPiece(String square, Piece piece) {
-        board.addPiece(square, piece);
-    }
-
-
-    @Test
-    @DisplayName("색상별로 남아있는 기물들을 점수의 오름차순으로 정렬한다")
-    public void sortPiecesByPointAscending() {
-        board.initializeEmpty();
-
-        addPiece("f2", createWhitePawn(new Position("f2")));
-        addPiece("g2", createWhitePawn(new Position("g2")));
-        addPiece("e1", createWhiteRook(new Position("e1")));
-        addPiece("f1", createWhiteKing(new Position("f1")));
-
-        addPiece("b6", createBlackPawn(new Position("b6")));
-        addPiece("e6", createBlackQueen(new Position("e6")));
-        addPiece("b8", createBlackKing(new Position("b8")));
-        addPiece("c8", createBlackRook(new Position("c8")));
-
-        List<Piece> expectedWhiteSortResult = List.of(
-                createWhiteKing(new Position("f1")), createWhitePawn(new Position("f2")),
-                createWhitePawn(new Position("g2")), createWhiteRook(new Position("e1")));
-
-        List<Piece> expectedBlackSortResult = List.of(
-                createBlackKing(new Position("b8")), createBlackPawn(new Position("b6")),
-                createBlackRook(new Position("c8")), createBlackQueen(new Position("e6")));
-
-        List<Piece> actualWhiteSortResult = board.sortPiecesByPointAscending(Color.WHITE);
-        List<Piece> actualBlackSortResult = board.sortPiecesByPointAscending(Color.BLACK);
-
-        for (int i = 0; i < 4; i++) {
-            assertEquals(expectedWhiteSortResult.get(i), actualWhiteSortResult.get(i));
-            assertEquals(expectedBlackSortResult.get(i), actualBlackSortResult.get(i));
-        }
-    }
-
-    @Test
-    @DisplayName("색상별로 남아있는 기물들을 점수의 내림차순으로 정렬한다")
-    public void sortPiecesByPointDescending() {
-        board.initializeEmpty();
-
-        addPiece("f2", createWhitePawn(new Position("f2")));
-        addPiece("g2", createWhitePawn(new Position("g2")));
-        addPiece("e1", createWhiteRook(new Position("e1")));
-        addPiece("f1", createWhiteKing(new Position("f1")));
-
-        addPiece("b6", createBlackPawn(new Position("b6")));
-        addPiece("e6", createBlackQueen(new Position("e6")));
-        addPiece("b8", createBlackKing(new Position("b8")));
-        addPiece("c8", createBlackRook(new Position("c8")));
-
-        List<Piece> expectedWhiteSortResult = List.of(
-                createWhiteRook(new Position("e1")), createWhitePawn(new Position("g2")),
-                createWhitePawn(new Position("f2")), createWhiteKing(new Position("f1")));
-
-        List<Piece> expectedBlackSortResult = List.of(
-                createBlackQueen(new Position("e6")), createBlackRook(new Position("c8")),
-                createBlackPawn(new Position("b6")), createBlackKing(new Position("b8")));
-
-        List<Piece> actualWhiteSortResult = board.sortPiecesByPointDescending(Color.WHITE);
-        List<Piece> actualBlackSortResult = board.sortPiecesByPointDescending(Color.BLACK);
-
-        for (int i = 0; i < 4; i++) {
-            assertEquals(expectedWhiteSortResult.get(i), actualWhiteSortResult.get(i));
-            assertEquals(expectedBlackSortResult.get(i), actualBlackSortResult.get(i));
-        }
-    }
-
-    @Test
-    @DisplayName("기물을 특정 위치에서 다른 위치로 이동시킬 수 있어야 한다")
-    public void move() throws Exception {
+    @DisplayName("특정 열에 있는 폰의 개수를 색상별로 확인한다")
+    void countPawnsInFile() {
         board.initialize();
+        Position position = new Position("b3");
+        board.addPiece(position.toSquare(), createBlackPawn(position));
 
-        String sourcePosition = "b2";
-        String targetPosition = "b3";
-        board.move(sourcePosition, targetPosition);
-        assertEquals(Piece.createBlank(new Position(sourcePosition)), board.findPiece(sourcePosition));
-        assertEquals(Piece.createWhitePawn(new Position(targetPosition)), board.findPiece(targetPosition));
+        int blackPawnsCountInFileB = 2, whitePawnsCountInFileB = 1;
+        assertEquals(blackPawnsCountInFileB, board.countPawnsByColorInFile(Color.BLACK, position.getFileIndex()));
+        assertEquals(whitePawnsCountInFileB, board.countPawnsByColorInFile(Color.WHITE, position.getFileIndex()));
     }
-
 }

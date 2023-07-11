@@ -1,63 +1,80 @@
 package chess;
 
-import java.util.Scanner;
+import chess.pieces.Piece;
+
+import java.util.Collections;
+import java.util.List;
 
 public class ChessGame {
 
-    private static Board board;
-    private static Scanner sc;
+    private final Board board;
 
-    public static void main(String[] args) {
-        run();
+    ChessGame(Board board) {
+        this.board = board;
     }
 
-    public static void run() {
-        init();
+    public void initializeBoard() {
+        board.initialize();
+    }
 
-        while (true) {
-            String userInput = getUserInput();
+    public void initializeEmptyBoard() {
+        board.initializeEmpty();
+    }
 
-            if (userInput.equals("start")) {
-                start();
-            } else if (userInput.startsWith("move")) {
-                move(userInput);
-            } else if (userInput.equals("end")) {
-                end();
-                break;
+    public void addPiece(String square, Piece piece) {
+        board.addPiece(square, piece);
+    }
+
+    public Piece findPiece(String square) {
+        return board.findPiece(square);
+    }
+
+    public void move(String sourceSquare, String targetSquare) {
+        try {
+            Piece sourcePiece = board.findPiece(sourceSquare);
+            Piece targetPiece = board.findPiece(targetSquare);
+
+            movePieceTo(sourcePiece, targetPiece.getPosition());
+            movePieceTo(targetPiece, sourcePiece.getPosition());
+        } catch (IllegalArgumentException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    private void movePieceTo(Piece piece, Position position) {
+        board.addPiece(position.toSquare(), piece.cloneWithoutPosition(position));
+    }
+
+    public double calculatePoint(Piece.Color color) {
+        return calculatePlusPoint(color) + calculatePenaltyPoint(color);
+    }
+
+    private double calculatePlusPoint(Piece.Color color) {
+        double plusPoint = board.getRanks().stream().mapToDouble(rank -> rank.calculatePoint(color)).sum();
+        return plusPoint;
+    }
+
+    private double calculatePenaltyPoint(Piece.Color color) {
+        double penaltyPoint = 0.0;
+        for (int fileIndex = 0; fileIndex < 8; fileIndex++) {
+            int pawnCnt = board.countPawnsByColorInFile(color, fileIndex);
+            if (pawnCnt > 1) {
+                penaltyPoint -= 0.5 * pawnCnt;
             }
         }
+        return penaltyPoint;
     }
 
-    private static void init() {
-        sc = new Scanner(System.in);
-        board = new Board();
+    public List<Piece> sortPiecesByPointAscending(Piece.Color color) {
+        List<Piece> pieces = board.findPiecesByColor(color);
+        Collections.sort(pieces);
+        return pieces;
     }
 
-    public static String getUserInput() {
-        System.out.print("userInput: ");
-        return sc.nextLine();
+    public List<Piece> sortPiecesByPointDescending(Piece.Color color) {
+        List<Piece> pieces = board.findPiecesByColor(color);
+        Collections.sort(pieces, Collections.reverseOrder());
+        return pieces;
     }
 
-    private static void start() {
-        System.out.println("게임을 시작합니다.\n");
-        board.initialize();
-        printBoard();
-    }
-
-    private static void move(String userInput) {
-        String[] parts = userInput.split(" ");
-        if (parts.length == 3) {
-            board.move(parts[1], parts[2]);
-            printBoard();
-        }
-    }
-
-    private static void end() {
-        System.out.println("게임을 종료합니다.");
-    }
-
-    private static void printBoard() {
-        System.out.println("[현재 체스판 상태]");
-        System.out.println(board.showBoard());
-    }
 }

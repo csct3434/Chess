@@ -145,7 +145,7 @@ public class Piece implements Comparable<Piece> {
         return (this.color.equals(Color.BLACK));
     }
 
-    public Piece copyWithNewPosition(Position position) {
+    public Piece cloneWithoutPosition(Position position) {
         return new Piece(this.color, this.type, position);
     }
 
