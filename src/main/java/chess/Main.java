@@ -17,14 +17,6 @@ public class Main {
         run();
     }
 
-    private static void init() {
-        sc = new Scanner(System.in);
-        Board board = new Board();
-        chessGame = new ChessGame(board);
-        chessView = new ChessView(board);
-        isStarted = false;
-    }
-
     public static void run() {
         while (true) {
             String userInput = getUserInput();
@@ -40,7 +32,15 @@ public class Main {
         }
     }
 
-    public static String getUserInput() {
+    private static void init() {
+        sc = new Scanner(System.in);
+        Board board = new Board();
+        chessGame = new ChessGame(board);
+        chessView = new ChessView(board);
+        isStarted = false;
+    }
+
+    private static String getUserInput() {
         System.out.print("userInput: ");
         return sc.nextLine().trim();
     }
@@ -54,9 +54,8 @@ public class Main {
 
     private static void move(String userInput) {
         if (isStarted) {
-            String[] arguments = userInput.split(" ");
-
             try {
+                String[] arguments = userInput.split(" ");
                 if (verifyMoveArguments(arguments)) {
                     chessGame.move(new Position(arguments[1]), new Position(arguments[2]));
                 }
@@ -77,8 +76,10 @@ public class Main {
     private static boolean checkArgumentsLength(String[] arguments) {
         return arguments.length == 3 || arguments[1].length() == 2 || arguments[2].length() == 2;
     }
-    
-    private static boolean checkDistinctSquares(String[] arguments) { return !arguments[1].equals(arguments[2]); }
+
+    private static boolean checkDistinctSquares(String[] arguments) {
+        return !arguments[1].equals(arguments[2]);
+    }
 
     private static void end() {
         System.out.println("게임을 종료합니다.");
@@ -86,6 +87,6 @@ public class Main {
 
     private static void printBoard() {
         System.out.println("\n[현재 체스판]");
-        System.out.println(chessView.showBoard());
+        chessView.showBoard();
     }
 }

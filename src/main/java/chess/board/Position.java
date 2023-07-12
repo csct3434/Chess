@@ -10,12 +10,12 @@ public class Position {
         if (!(file >= 'a' && file <= 'h') || !(rank >= '1' && rank <= '8')) {
             throw new IllegalArgumentException("유효하지 않은 좌표입니다 : " + square);
         }
-        this.xPos = square.charAt(0) - 'a';
-        this.yPos = square.charAt(1) - '1';
+        this.xPos = file - 'a';
+        this.yPos = rank - '1';
     }
 
     public Position(int xPos, int yPos) throws IllegalArgumentException {
-        if(xPos < 0 || xPos > 7 || yPos < 0 || yPos > 7) {
+        if (xPos < 0 || xPos > 7 || yPos < 0 || yPos > 7) {
             throw new IllegalArgumentException("유효하지 않은 좌표입니다." + toSquare(xPos, yPos));
         }
         this.xPos = xPos;

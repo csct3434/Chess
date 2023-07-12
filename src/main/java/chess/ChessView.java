@@ -1,9 +1,6 @@
 package chess;
 
 import chess.board.Board;
-import chess.board.Rank;
-
-import java.util.List;
 
 public class ChessView {
 
@@ -14,14 +11,8 @@ public class ChessView {
     }
 
     public String showBoard() {
-        StringBuilder sb = new StringBuilder();
-        List<Rank> ranks = board.getRanks();
-
-        for (int rankIndex = board.BOARD_LENGTH - 1; rankIndex >= 0; rankIndex--) {
-            String rankRepresentation = ranks.get(rankIndex).getRepresentation();
-            sb.append(rankRepresentation);
-        }
-
-        return sb.toString();
+        String boardRepresentation = board.getBoardRepresentation();
+        System.out.println(boardRepresentation);
+        return boardRepresentation;
     }
 }

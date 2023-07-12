@@ -9,8 +9,8 @@ import java.util.stream.Collectors;
 
 public class Rank {
 
-    private static final int WHITE_PAWN_RANK_INDEX = 1;
-    private static final int BLACK_PAWN_RANK_INDEX = 6;
+    private static final int WHITE_PAWN_Y_POSITION = 1;
+    private static final int BLACK_PAWN_Y_POSITION = 6;
 
     private List<Piece> pieces;
 
@@ -20,7 +20,7 @@ public class Rank {
     }
 
     private void verifyPieceCount(List<Piece> pieces) {
-        if (pieces.size() != Board.BOARD_LENGTH) {
+        if (pieces.size() != Board.LENGTH) {
             throw new IllegalArgumentException("Rank의 기물 개수가 8개가 아닙니다.");
         }
     }
@@ -58,9 +58,8 @@ public class Rank {
     public static Rank createWithWhitePawns() {
         List<Piece> pieces = new ArrayList<>();
 
-        for (int fileIndex = 0; fileIndex < Board.BOARD_LENGTH; fileIndex++) {
-            String square = Position.toSquare(fileIndex, WHITE_PAWN_RANK_INDEX);
-            Position position = new Position(square);
+        for (int xPos = 0; xPos < Board.LENGTH; xPos++) {
+            Position position = new Position(xPos, WHITE_PAWN_Y_POSITION);
             pieces.add(Pawn.createWhite(position));
         }
 
@@ -70,9 +69,8 @@ public class Rank {
     public static Rank createWithBlackPawns() {
         List<Piece> pieces = new ArrayList<>();
 
-        for (int fileIndex = 0; fileIndex < Board.BOARD_LENGTH; fileIndex++) {
-            String square = Position.toSquare(fileIndex, BLACK_PAWN_RANK_INDEX);
-            Position position = new Position(square);
+        for (int xPos = 0; xPos < Board.LENGTH; xPos++) {
+            Position position = new Position(xPos, BLACK_PAWN_Y_POSITION);
             pieces.add(Pawn.createBlack(position));
         }
 
@@ -82,7 +80,7 @@ public class Rank {
     public static Rank createEmptyRank(int yPos) {
         List<Piece> pieces = new ArrayList<>();
 
-        for (int xPos = 0; xPos < Board.BOARD_LENGTH; xPos++) {
+        for (int xPos = 0; xPos < Board.LENGTH; xPos++) {
             Position position = new Position(xPos, yPos);
             pieces.add(Blank.create(position));
         }
@@ -90,14 +88,10 @@ public class Rank {
         return new Rank(pieces);
     }
 
-    public String getRepresentation() {
-        StringBuilder sb = new StringBuilder();
-
-        for (int pieceIndex = 0; pieceIndex < Board.BOARD_LENGTH; pieceIndex++) {
-            sb.append(pieces.get(pieceIndex).getRepresentation());
-        }
-
-        return StringUtils.appendNewLine(sb.toString());
+    public List<Piece> findPiecesByColor(Color color) {
+        return pieces.stream()
+                .filter(piece -> piece.checkColor(color))
+                .collect(Collectors.toList());
     }
 
     public int countTotalPieces() {
@@ -106,9 +100,9 @@ public class Rank {
                 .count();
     }
 
-    public int countPiecesOf(Color color, Type type) {
+    public int countPieceOf(Color color, Type type) {
         return (int) pieces.stream()
-                .filter(piece -> piece.verifyColorAndType(color, type))
+                .filter(piece -> piece.checkColorAndType(color, type))
                 .count();
     }
 
@@ -116,20 +110,17 @@ public class Rank {
         return pieces.get(xPos);
     }
 
-    public void setPiece(int xPos, Piece piece) {
+    public void setPieceTo(int xPos, Piece piece) {
         pieces.set(xPos, piece);
     }
 
-    public List<Piece> findPiecesByColor(Color color) {
-        return pieces.stream()
-                .filter(piece -> piece.verifyColor(color))
-                .collect(Collectors.toList());
-    }
+    public String getRepresentation() {
+        StringBuilder sb = new StringBuilder();
 
-    public double calculatePoint(Color color) {
-        return pieces.stream()
-                .filter(piece -> piece.verifyColor(color))
-                .mapToDouble(piece -> piece.getType().getDefaultPoint())
-                .sum();
+        for (int xPos = 0; xPos < Board.LENGTH; xPos++) {
+            sb.append(pieces.get(xPos).getRepresentation());
+        }
+
+        return StringUtils.appendNewLine(sb.toString());
     }
 }

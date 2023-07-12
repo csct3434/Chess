@@ -10,61 +10,24 @@ import java.util.stream.Collectors;
 
 public class Board {
 
-    public static final int BOARD_LENGTH = 8;
+    public static final int LENGTH = 8;
 
     private List<Rank> ranks;
 
     public void initialize() {
         ranks = new ArrayList<>();
-        // Rank-1 : 폰 이외의 흰색 기물 생성
         ranks.add(Rank.createWithWhiteMajorPieces());
-        // Rank-2 : 흰색 폰 기물 생성
         ranks.add(Rank.createWithWhitePawns());
-        // Rank-3 ~ Rank-6 : 기물이 없는 칸 생성
         addEmptyRanks();
-        // Rank-7 : 검정색 폰 생성
         ranks.add(Rank.createWithBlackPawns());
-        // Rank-8 : 폰 이외의 검정색 기물 생성
         ranks.add(Rank.createWithBlackMajorPieces());
-    }
-
-    private void addEmptyRanks() {
-        for (int rankIndex = 2; rankIndex <= 5; rankIndex++) {
-            ranks.add(Rank.createEmptyRank(rankIndex));
-        }
     }
 
     public void initializeEmpty() {
         ranks = new ArrayList<>();
-        for (int rankIndex = 0; rankIndex < BOARD_LENGTH; rankIndex++) {
+        for (int rankIndex = 0; rankIndex < LENGTH; rankIndex++) {
             ranks.add(Rank.createEmptyRank(rankIndex));
         }
-    }
-
-    public List<Rank> getRanks() {
-        return ranks;
-    }
-
-    public int countTotalPieces() {
-        return ranks.stream()
-                .mapToInt(Rank::countTotalPieces).sum();
-    }
-
-    public int countPiecesByColorAndType(Color color, Type type) {
-        return ranks.stream()
-                .mapToInt(rank -> rank.countPiecesOf(color, type))
-                .sum();
-    }
-
-    public int countPawnsByColorInFile(Color color, int xPos) {
-        return (int) ranks.stream()
-                .map(rank -> rank.getPieceAt(xPos))
-                .filter(piece -> verifyPawnTypeAndColor(piece, color))
-                .count();
-    }
-
-    private boolean verifyPawnTypeAndColor(Piece piece, Color color) {
-        return piece.getType() == Type.PAWN && piece.getColor() == color;
     }
 
     public Piece findPiece(Position position) {
@@ -80,6 +43,42 @@ public class Board {
 
     public void addPiece(Position position, Piece piece) {
         ranks.get(position.getYPos())
-                .setPiece(position.getXPos(), piece);
+                .setPieceTo(position.getXPos(), piece);
     }
+
+    public int countAllPieces() {
+        return ranks.stream()
+                .mapToInt(Rank::countTotalPieces).sum();
+    }
+
+    public int countPieceOf(Color color, Type type) {
+        return ranks.stream()
+                .mapToInt(rank -> rank.countPieceOf(color, type))
+                .sum();
+    }
+
+    public int countPawnsByColorInFile(Color color, int xPos) {
+        return (int) ranks.stream()
+                .map(rank -> rank.getPieceAt(xPos))
+                .filter(piece -> piece.checkColorAndType(color, Type.PAWN))
+                .count();
+    }
+
+    public String getBoardRepresentation() {
+        StringBuilder stringBuilder = new StringBuilder();
+
+        for (int rankIndex = Board.LENGTH - 1; rankIndex >= 0; rankIndex--) {
+            String rankRepresentation = ranks.get(rankIndex).getRepresentation();
+            stringBuilder.append(rankRepresentation);
+        }
+
+        return stringBuilder.toString();
+    }
+
+    private void addEmptyRanks() {
+        for (int rankIndex = 2; rankIndex <= 5; rankIndex++) {
+            ranks.add(Rank.createEmptyRank(rankIndex));
+        }
+    }
+
 }

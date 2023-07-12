@@ -28,15 +28,19 @@ public abstract class Piece implements Comparable<Piece> {
         return type;
     }
 
+    public Position getPosition() {
+        return position;
+    }
+
+    public Double getDefaultPoint() {
+        return type.getDefaultPoint();
+    }
+
     public char getRepresentation() {
         if (isWhite()) {
             return type.getWhiteRepresentation();
         }
         return type.getBlackRepresentation();
-    }
-
-    public Position getPosition() {
-        return position;
     }
 
     public boolean isWhite() {
@@ -47,12 +51,16 @@ public abstract class Piece implements Comparable<Piece> {
         return (this.color.equals(Color.BLACK));
     }
 
-    public boolean verifyColor(Color color) {
+    public boolean checkColor(Color color) {
         return this.color == color;
     }
 
-    public boolean verifyColorAndType(Color color, Type type) {
-        return this.color == color && this.type == type;
+    public boolean checkType(Type type) {
+        return this.type == type;
+    }
+
+    public boolean checkColorAndType(Color color, Type type) {
+        return (this.color == color) && (this.type == type);
     }
 
     @Override
@@ -78,10 +86,9 @@ public abstract class Piece implements Comparable<Piece> {
 
     @Override
     public int compareTo(Piece piece) {
-        if (Double.compare(this.type.getDefaultPoint(), piece.type.getDefaultPoint()) == 0) {
+        if (Double.compare(this.getDefaultPoint(), piece.getDefaultPoint()) == 0) {
             return this.position.toSquare().compareTo(piece.position.toSquare());
         }
-        return Double.compare(this.type.getDefaultPoint(), piece.type.getDefaultPoint());
+        return Double.compare(this.getDefaultPoint(), piece.getDefaultPoint());
     }
-
 }

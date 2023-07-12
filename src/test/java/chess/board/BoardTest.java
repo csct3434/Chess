@@ -19,14 +19,14 @@ class BoardTest {
     @DisplayName("초기화 된 체스판은 32개의 기물을 가진다")
     void create() throws Exception {
         board.initialize();
-        assertEquals(32, board.countTotalPieces());
+        assertEquals(32, board.countAllPieces());
     }
 
     @Test
     @DisplayName("빈 체스판의 0개의 기물을 가진다")
     void createEmpty() throws Exception {
         board.initializeEmpty();
-        assertEquals(0, board.countTotalPieces());
+        assertEquals(0, board.countAllPieces());
     }
 
     @Test
@@ -34,23 +34,23 @@ class BoardTest {
     void countSpecificPieces() {
         board.initialize();
 
-        assertEquals(8, board.countPiecesByColorAndType(Color.WHITE, Type.PAWN));
-        assertEquals(8, board.countPiecesByColorAndType(Color.BLACK, Type.PAWN));
+        assertEquals(8, board.countPieceOf(Color.WHITE, Type.PAWN));
+        assertEquals(8, board.countPieceOf(Color.BLACK, Type.PAWN));
 
-        assertEquals(2, board.countPiecesByColorAndType(Color.WHITE, Type.ROOK));
-        assertEquals(2, board.countPiecesByColorAndType(Color.BLACK, Type.ROOK));
+        assertEquals(2, board.countPieceOf(Color.WHITE, Type.ROOK));
+        assertEquals(2, board.countPieceOf(Color.BLACK, Type.ROOK));
 
-        assertEquals(2, board.countPiecesByColorAndType(Color.WHITE, Type.KNIGHT));
-        assertEquals(2, board.countPiecesByColorAndType(Color.BLACK, Type.KNIGHT));
+        assertEquals(2, board.countPieceOf(Color.WHITE, Type.KNIGHT));
+        assertEquals(2, board.countPieceOf(Color.BLACK, Type.KNIGHT));
 
-        assertEquals(2, board.countPiecesByColorAndType(Color.WHITE, Type.BISHOP));
-        assertEquals(2, board.countPiecesByColorAndType(Color.BLACK, Type.BISHOP));
+        assertEquals(2, board.countPieceOf(Color.WHITE, Type.BISHOP));
+        assertEquals(2, board.countPieceOf(Color.BLACK, Type.BISHOP));
 
-        assertEquals(1, board.countPiecesByColorAndType(Color.WHITE, Type.QUEEN));
-        assertEquals(1, board.countPiecesByColorAndType(Color.BLACK, Type.QUEEN));
+        assertEquals(1, board.countPieceOf(Color.WHITE, Type.QUEEN));
+        assertEquals(1, board.countPieceOf(Color.BLACK, Type.QUEEN));
 
-        assertEquals(1, board.countPiecesByColorAndType(Color.WHITE, Type.KING));
-        assertEquals(1, board.countPiecesByColorAndType(Color.BLACK, Type.KING));
+        assertEquals(1, board.countPieceOf(Color.WHITE, Type.KING));
+        assertEquals(1, board.countPieceOf(Color.BLACK, Type.KING));
     }
 
     @Test
