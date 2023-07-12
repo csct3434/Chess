@@ -1,5 +1,8 @@
 package chess;
 
+import chess.board.Board;
+import chess.board.Position;
+
 import java.util.Scanner;
 
 public class Main {
@@ -39,7 +42,7 @@ public class Main {
 
     public static String getUserInput() {
         System.out.print("userInput: ");
-        return sc.nextLine();
+        return sc.nextLine().trim();
     }
 
     private static void start() {
@@ -51,15 +54,31 @@ public class Main {
 
     private static void move(String userInput) {
         if (isStarted) {
-            String[] parts = userInput.split(" ");
-            if (parts.length == 3) {
-                chessGame.move(parts[1], parts[2]);
+            String[] arguments = userInput.split(" ");
+
+            try {
+                if (verifyMoveArguments(arguments)) {
+                    chessGame.move(new Position(arguments[1]), new Position(arguments[2]));
+                }
+            } catch (IllegalArgumentException e) {
+                System.out.println(e.getMessage());
+            } finally {
                 printBoard();
             }
         } else {
             System.out.println("게임이 시작되지 않았습니다 : start");
         }
     }
+
+    private static boolean verifyMoveArguments(String[] arguments) {
+        return checkArgumentsLength(arguments) && checkDistinctSquares(arguments);
+    }
+
+    private static boolean checkArgumentsLength(String[] arguments) {
+        return arguments.length == 3 || arguments[1].length() == 2 || arguments[2].length() == 2;
+    }
+    
+    private static boolean checkDistinctSquares(String[] arguments) { return !arguments[1].equals(arguments[2]); }
 
     private static void end() {
         System.out.println("게임을 종료합니다.");

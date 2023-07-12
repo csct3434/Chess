@@ -1,7 +1,11 @@
 package chess;
 
+import chess.board.Board;
+import chess.board.Position;
+import chess.pieces.Blank;
 import chess.pieces.Color;
 import chess.pieces.Piece;
+import chess.pieces.Type;
 
 import java.util.Collections;
 import java.util.List;
@@ -22,28 +26,84 @@ public class ChessGame {
         board.initializeEmpty();
     }
 
-    public void addPiece(String square, Piece piece) {
-        board.addPiece(square, piece);
+    public void addPiece(Position position, Piece piece) {
+        board.addPiece(position, piece);
     }
 
-    public Piece findPiece(String square) {
-        return board.findPiece(square);
+    public Piece findPiece(Position position) {
+        return board.findPiece(position);
     }
 
-    public void move(String sourceSquare, String targetSquare) {
-        try {
-            Piece sourcePiece = board.findPiece(sourceSquare);
-            Piece targetPiece = board.findPiece(targetSquare);
+    public void move(Position sourcePosition, Position targetPosition) {
+        Piece sourcePiece = board.findPiece(sourcePosition);
+        Piece targetPiece = board.findPiece(targetPosition);
 
+        if(verifyMoveConditions(sourcePiece, targetPiece)) {
             movePieceTo(sourcePiece, targetPiece.getPosition());
-            movePieceTo(targetPiece, sourcePiece.getPosition());
-        } catch (IllegalArgumentException e) {
-            System.out.println(e.getMessage());
+            movePieceTo(Blank.create(targetPiece.getPosition()), sourcePiece.getPosition());
         }
     }
 
+    private boolean verifyMoveConditions(Piece sourcePiece, Piece targetPiece) {
+        boolean isTargetColorDifferent = sourcePiece.getColor() != targetPiece.getColor();
+        boolean isValidDirection = sourcePiece.verifyMovePosition(targetPiece.getPosition());
+        boolean isPathClear = hasNoPieceOnPath(sourcePiece, targetPiece);
+        boolean isAttackPossible = verifyAttackPossible(sourcePiece, targetPiece);
+        return isTargetColorDifferent && isValidDirection && isPathClear && isAttackPossible;
+    }
+
+    private boolean verifyAttackPossible(Piece sourcePiece, Piece targetPiece) {
+        if(targetPiece.getColor() == Color.NO_COLOR) {
+            return true;
+        }
+
+        if(sourcePiece.getType() == Type.PAWN && sourcePiece.getPosition().getXPos() == targetPiece.getPosition().getXPos()) {
+            return false;
+        }
+
+        return true;
+    }
+
+    private boolean hasNoPieceOnPath(Piece sourcePiece, Piece targetPiece) {
+        if(sourcePiece.getType() == Type.KNIGHT)
+            return true;
+
+        Position sourcePosition = sourcePiece.getPosition();
+        Position targetPosition = targetPiece.getPosition();
+        Position intermediatePosition;
+
+        int xDegree = getXDegree(sourcePosition, targetPosition);
+        int yDegree = getYDegree(sourcePosition, targetPosition);
+
+        intermediatePosition = sourcePosition.getMovedPosition(xDegree, yDegree);
+
+        while(!intermediatePosition.equals(targetPosition)) {
+            if(board.findPiece(intermediatePosition).getType() == Type.NO_PIECE) {
+                intermediatePosition = intermediatePosition.getMovedPosition(xDegree, yDegree);
+            } else {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    private int getXDegree(Position sourcePosition, Position targetPosition) {
+        int xPosDiff = targetPosition.getXPos() - sourcePosition.getXPos();
+        if(xPosDiff == 0)
+            return xPosDiff;
+        return xPosDiff / Math.abs(xPosDiff);
+    }
+
+    private int getYDegree(Position sourcePosition, Position targetPosition) {
+        int yPosDiff = targetPosition.getYPos() - sourcePosition.getYPos();
+        if(yPosDiff == 0)
+            return yPosDiff;
+        return yPosDiff / Math.abs(yPosDiff);
+    }
+
     private void movePieceTo(Piece piece, Position position) {
-        board.addPiece(position.toSquare(), piece.cloneWithoutPosition(position));
+        board.addPiece(position, piece.cloneExceptPosition(position));
     }
 
     public double calculatePoint(Color color) {
@@ -51,7 +111,9 @@ public class ChessGame {
     }
 
     private double calculatePlusPoint(Color color) {
-        double plusPoint = board.getRanks().stream().mapToDouble(rank -> rank.calculatePoint(color)).sum();
+        double plusPoint = board.getRanks().stream()
+                .mapToDouble(rank -> rank.calculatePoint(color))
+                .sum();
         return plusPoint;
     }
 

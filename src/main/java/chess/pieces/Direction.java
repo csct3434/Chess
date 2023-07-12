@@ -12,7 +12,6 @@ public enum Direction {
     SOUTHWEST(-1, -1),
     WEST(-1, 0),
     NORTHWEST(-1, 1),
-
     NNE(1, 2),
     NNW(-1, 2),
     SSE(1, -2),
@@ -61,4 +60,18 @@ public enum Direction {
     public static List<Direction> blackPawnDirection() {
         return Arrays.asList(SOUTH, SOUTHEAST, SOUTHWEST);
     }
+
+    public static boolean isLinearMove(int xPosMove, int yPosMove) {
+        return (xPosMove == 0 && yPosMove != 0) || (yPosMove == 0 && xPosMove != 0);
+    }
+
+    public static boolean isDiagonalMove(int xPosMove, int yPosMove) {
+        return Math.abs(xPosMove) == Math.abs(yPosMove);
+    }
+
+    public static boolean isKnightMove(int xPosMove, int yPosMove) {
+        return knightDirection().stream()
+                .anyMatch(direction -> direction.getXDegree() == xPosMove && direction.getYDegree() == yPosMove);
+    }
+
 }

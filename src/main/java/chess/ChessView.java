@@ -1,6 +1,7 @@
 package chess;
 
-import chess.pieces.Rank;
+import chess.board.Board;
+import chess.board.Rank;
 
 import java.util.List;
 

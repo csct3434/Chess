@@ -1,5 +1,5 @@
 package chess.pieces;
 
 public enum Color {
-    WHITE, BLACK, NOCOLOR
+    WHITE, BLACK, NO_COLOR
 }

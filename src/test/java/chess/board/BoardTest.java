@@ -1,12 +1,10 @@
-package chess;
+package chess.board;
 
-import chess.pieces.Color;
-import chess.pieces.Type;
+import chess.pieces.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import static chess.pieces.Piece.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class BoardTest {
@@ -60,10 +58,14 @@ class BoardTest {
     void findPiece() throws Exception {
         board.initialize();
 
-        assertEquals(createBlackRook(new Position("a8")), board.findPiece("a8"));
-        assertEquals(createBlackRook(new Position("h8")), board.findPiece("h8"));
-        assertEquals(createWhiteRook(new Position("a1")), board.findPiece("a1"));
-        assertEquals(createWhiteRook(new Position("h1")), board.findPiece("h1"));
+        assertEquals(Rook.createBlack(new Position("a8")), findPiece("a8"));
+        assertEquals(Rook.createBlack(new Position("h8")), findPiece("h8"));
+        assertEquals(Rook.createWhite(new Position("a1")), findPiece("a1"));
+        assertEquals(Rook.createWhite(new Position("h1")), findPiece("h1"));
+    }
+
+    private Piece findPiece(String square) {
+        return board.findPiece(new Position(square));
     }
 
     @Test
@@ -71,10 +73,10 @@ class BoardTest {
     void countPawnsInFile() {
         board.initialize();
         Position position = new Position("b3");
-        board.addPiece(position.toSquare(), createBlackPawn(position));
+        board.addPiece(position, Pawn.createBlack(position));
 
         int blackPawnsCountInFileB = 2, whitePawnsCountInFileB = 1;
-        assertEquals(blackPawnsCountInFileB, board.countPawnsByColorInFile(Color.BLACK, position.getFileIndex()));
-        assertEquals(whitePawnsCountInFileB, board.countPawnsByColorInFile(Color.WHITE, position.getFileIndex()));
+        assertEquals(blackPawnsCountInFileB, board.countPawnsByColorInFile(Color.BLACK, position.getXPos()));
+        assertEquals(whitePawnsCountInFileB, board.countPawnsByColorInFile(Color.WHITE, position.getXPos()));
     }
 }

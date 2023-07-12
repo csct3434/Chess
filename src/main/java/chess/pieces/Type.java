@@ -9,9 +9,7 @@ public enum Type {
     KING('k', 0.0),
     NO_PIECE('.', 0.0);
 
-    // 기물 식별자
     private final char representation;
-    // 기물 점수
     private final double defaultPoint;
 
     Type(char representation, double defaultPoint) {
@@ -31,4 +29,3 @@ public enum Type {
         return defaultPoint;
     }
 }
-
