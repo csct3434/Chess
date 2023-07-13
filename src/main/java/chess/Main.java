@@ -38,7 +38,20 @@ public class Main {
                 chessView.showMessage("게임을 종료합니다");
                 break;
             }
+
+            if(chessGame.isKingDead()) {
+                showEndingScreen();
+                break;
+            }
+
         }
+    }
+
+    private static void showEndingScreen() {
+        String winner = chessGame.getWinner();
+        double whitePoint = chessGame.getWhitePoint();
+        double blackPoint = chessGame.getBlackPoint();
+        chessView.showEndingScreen(winner, whitePoint, blackPoint);
     }
 
     private static void showPrompt() {

@@ -17,10 +17,14 @@ public class ChessGame {
 
     private final Board board;
     private int turnCount;
+    private boolean whiteKingDead;
+    private boolean blackKingDead;
 
     ChessGame(Board board) {
         this.board = board;
         this.turnCount = 1;
+        whiteKingDead = false;
+        blackKingDead = false;
     }
 
     public void initializeBoard() {
@@ -64,8 +68,20 @@ public class ChessGame {
 
         verifyMoveConditions(sourcePiece, targetPiece);
 
+        checkKingDied(targetPiece);
+
         movePieceTo(sourcePiece, targetPiece.getPosition());
         movePieceTo(Blank.create(targetPiece.getPosition()), sourcePiece.getPosition());
+    }
+
+    private void checkKingDied(Piece targetPiece) {
+        if(targetPiece.checkType(Type.KING)) {
+            if(targetPiece.checkColor(Color.WHITE)) {
+                whiteKingDead = true;
+            } else {
+                blackKingDead = true;
+            }
+        }
     }
 
     public void addTurnCount() {
@@ -173,4 +189,22 @@ public class ChessGame {
         }
     }
 
+    public boolean isKingDead() {
+        return whiteKingDead || blackKingDead;
+    }
+
+    public String getWinner() {
+        if(whiteKingDead) {
+            return "흑";
+        }
+        return "백";
+    }
+
+    public double getWhitePoint() {
+        return calculatePoint(Color.WHITE);
+    }
+
+    public double getBlackPoint() {
+        return calculatePoint(Color.BLACK);
+    }
 }
