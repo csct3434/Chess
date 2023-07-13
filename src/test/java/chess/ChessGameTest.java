@@ -26,12 +26,12 @@ class ChessGameTest {
     void move() throws Exception {
         chessGame.initializeBoard();
 
-        Position sourcePosition = new Position("b2");
-        Position targetPosition = new Position("b3");
+        String sourcePosition = "b2";
+        String targetPosition = "b3";
         chessGame.move(sourcePosition, targetPosition);
 
-        assertEquals(Blank.create(sourcePosition), chessGame.findPiece(sourcePosition));
-        assertEquals(Pawn.createWhite(targetPosition), chessGame.findPiece(targetPosition));
+        assertEquals(Blank.create(new Position(sourcePosition)), chessGame.findPiece(new Position(sourcePosition)));
+        assertEquals(Pawn.createWhite(new Position(targetPosition)), chessGame.findPiece(new Position(targetPosition)));
     }
 
     @Test

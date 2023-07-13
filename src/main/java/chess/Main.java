@@ -1,7 +1,6 @@
 package chess;
 
 import chess.board.Board;
-import chess.board.Position;
 
 import java.util.Scanner;
 
@@ -54,16 +53,15 @@ public class Main {
 
     private static void move(String userInput) {
         if (isStarted) {
-            try {
-                String[] arguments = userInput.split(" ");
-                if (verifyMoveArguments(arguments)) {
-                    chessGame.move(new Position(arguments[1]), new Position(arguments[2]));
-                }
-            } catch (IllegalArgumentException e) {
-                System.out.println(e.getMessage());
-            } finally {
-                printBoard();
+            String[] arguments = userInput.split(" ");
+            String sourceSquare = arguments[1];
+            String targetSquare = arguments[2];
+
+            if (verifyMoveArguments(arguments)) {
+                chessGame.move(sourceSquare, targetSquare);
             }
+
+            printBoard();
         } else {
             System.out.println("게임이 시작되지 않았습니다 : start");
         }

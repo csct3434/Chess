@@ -53,7 +53,10 @@ public class ChessGame {
         return pieces;
     }
 
-    public void move(Position sourcePosition, Position targetPosition) {
+    public void move(String sourceSquare, String targetSquare) {
+        Position sourcePosition = new Position(sourceSquare);
+        Position targetPosition = new Position(targetSquare);
+        
         Piece sourcePiece = board.findPiece(sourcePosition);
         Piece targetPiece = board.findPiece(targetPosition);
 
