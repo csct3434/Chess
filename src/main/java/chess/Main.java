@@ -57,10 +57,9 @@ public class Main {
             String sourceSquare = arguments[1];
             String targetSquare = arguments[2];
             chessGame.move(sourceSquare, targetSquare);
+            chessView.showBoard();
         } catch (RuntimeException exception) {
             chessView.showMessage(exception.getMessage());
-        } finally {
-            chessView.showBoard();
         }
     }
 
