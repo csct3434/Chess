@@ -56,7 +56,11 @@ public class ChessGame {
     public void move(String sourceSquare, String targetSquare) {
         Position sourcePosition = new Position(sourceSquare);
         Position targetPosition = new Position(targetSquare);
-        
+
+        if(!verifyDistinctPosition(sourcePosition, targetPosition)) {
+            return;
+        }
+
         Piece sourcePiece = board.findPiece(sourcePosition);
         Piece targetPiece = board.findPiece(targetPosition);
 
@@ -64,6 +68,10 @@ public class ChessGame {
             movePieceTo(sourcePiece, targetPiece.getPosition());
             movePieceTo(Blank.create(targetPiece.getPosition()), sourcePiece.getPosition());
         }
+    }
+
+    private static boolean verifyDistinctPosition(Position sourcePosition, Position targetPosition) {
+        return !sourcePosition.equals(targetPosition);
     }
 
     private double calculatePlusPoint(Color color) {

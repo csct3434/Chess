@@ -57,7 +57,7 @@ public class Main {
             String sourceSquare = arguments[1];
             String targetSquare = arguments[2];
 
-            if (verifyMoveArguments(arguments)) {
+            if (checkArgumentsLength(arguments)) {
                 chessGame.move(sourceSquare, targetSquare);
             }
 
@@ -67,16 +67,8 @@ public class Main {
         }
     }
 
-    private static boolean verifyMoveArguments(String[] arguments) {
-        return checkArgumentsLength(arguments) && checkDistinctSquares(arguments);
-    }
-
     private static boolean checkArgumentsLength(String[] arguments) {
         return arguments.length == 3 && arguments[1].length() == 2 && arguments[2].length() == 2;
-    }
-
-    private static boolean checkDistinctSquares(String[] arguments) {
-        return !arguments[1].equals(arguments[2]);
     }
 
     private static void end() {
