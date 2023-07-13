@@ -72,7 +72,7 @@ public class Main {
     }
 
     private static boolean checkArgumentsLength(String[] arguments) {
-        return arguments.length == 3 || arguments[1].length() == 2 || arguments[2].length() == 2;
+        return arguments.length == 3 && arguments[1].length() == 2 && arguments[2].length() == 2;
     }
 
     private static boolean checkDistinctSquares(String[] arguments) {
