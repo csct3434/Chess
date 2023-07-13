@@ -75,8 +75,8 @@ public class ChessGame {
     }
 
     private void checkKingDied(Piece targetPiece) {
-        if(targetPiece.checkType(Type.KING)) {
-            if(targetPiece.checkColor(Color.WHITE)) {
+        if (targetPiece.checkType(Type.KING)) {
+            if (targetPiece.checkColor(Color.WHITE)) {
                 whiteKingDead = true;
             } else {
                 blackKingDead = true;
@@ -104,7 +104,7 @@ public class ChessGame {
     }
 
     private static void verifyDistinctPosition(Position sourcePosition, Position targetPosition) {
-        if(sourcePosition.equals(targetPosition)) {
+        if (sourcePosition.equals(targetPosition)) {
             throw new IllegalArgumentException("동일한 위치로 이동할 수 없습니다.");
         }
     }
@@ -115,7 +115,7 @@ public class ChessGame {
                 && !(sourcePiece.checkColor(targetPiece.getColor()))
                 && verifyAttack(sourcePiece, targetPiece);
 
-        if(!isPossibleMove) {
+        if (!isPossibleMove) {
             throw new RuntimeException("해당 위치로 이동할 수 없습니다.");
         }
     }
@@ -136,7 +136,7 @@ public class ChessGame {
 
     private boolean verifyPawnAttack(Piece sourcePiece, Piece targetPiece) {
         boolean isLinearMove = sourcePiece.getPosition().getXPos() == targetPiece.getPosition().getXPos();
-        if(isLinearMove) {
+        if (isLinearMove) {
             return targetPiece.checkType(Type.NO_PIECE);
         }
         return !targetPiece.checkType(Type.NO_PIECE);
@@ -146,13 +146,13 @@ public class ChessGame {
         int xDegree = getXDegree(sourcePosition, targetPosition);
         int yDegree = getYDegree(sourcePosition, targetPosition);
 
-        Position intermediatePosition = sourcePosition.getMovedPosition(xDegree, yDegree);
+        Position intermediatePosition = Position.createWithDegreeOffset(sourcePosition, xDegree, yDegree);
 
         while (!intermediatePosition.equals(targetPosition)) {
             if (!board.findPiece(intermediatePosition).checkType(Type.NO_PIECE)) {
                 return false;
             }
-            intermediatePosition = intermediatePosition.getMovedPosition(xDegree, yDegree);
+            intermediatePosition = Position.createWithDegreeOffset(sourcePosition, xDegree, yDegree);
         }
 
         return true;
@@ -177,14 +177,14 @@ public class ChessGame {
     }
 
     public String getTurnPresentation() {
-        if(turnCount % 2 == 1) {
+        if (turnCount % 2 == 1) {
             return "(백)";
         }
         return "(흑)";
     }
 
     private void verifyTurn(Color color) {
-        if((turnCount % 2 == 1 && color != Color.WHITE) || (turnCount % 2 == 0 && color != Color.BLACK)) {
+        if ((turnCount % 2 == 1 && color != Color.WHITE) || (turnCount % 2 == 0 && color != Color.BLACK)) {
             throw new IllegalArgumentException("상대방 기물은 이동시킬 수 없습니다.");
         }
     }
@@ -194,7 +194,7 @@ public class ChessGame {
     }
 
     public String getWinner() {
-        if(whiteKingDead) {
+        if (whiteKingDead) {
             return "흑";
         }
         return "백";

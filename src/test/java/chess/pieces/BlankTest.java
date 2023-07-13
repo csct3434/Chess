@@ -13,10 +13,15 @@ class BlankTest {
     void test() {
         Blank blank = Blank.create(new Position("a1"));
 
-        for(int xDegree = 0; xDegree < Board.LENGTH; xDegree++) {
-            for(int yDegree = 0; yDegree < Board.LENGTH; yDegree++) {
-                assertFalse(blank.verifyMovePosition(blank.getPosition().getMovedPosition(xDegree, yDegree)));
+        for (int xDegree = 0; xDegree < Board.LENGTH; xDegree++) {
+            for (int yDegree = 0; yDegree < Board.LENGTH; yDegree++) {
+                assertFalse(verifyMovePosition(blank, xDegree, yDegree));
             }
         }
+    }
+
+    private boolean verifyMovePosition(Piece piece, int xDegree, int yDegree) {
+        Position targetPosition = Position.createWithDegreeOffset(piece.getPosition(), xDegree, yDegree);
+        return piece.verifyMovePosition(targetPosition);
     }
 }

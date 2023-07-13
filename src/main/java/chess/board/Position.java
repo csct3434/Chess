@@ -28,10 +28,8 @@ public class Position {
         this.yPos = yPos;
     }
 
-    public static String toSquare(int xPos, int yPos) {
-        return new StringBuilder()
-                .append((char) ('a' + xPos))
-                .append((char) ('1' + yPos)).toString();
+    public static Position createWithDegreeOffset(Position position, int xDegree, int yDegree) {
+        return new Position(position.getXPos() + xDegree, position.yPos + yDegree);
     }
 
     public int getXPos() {
@@ -53,10 +51,6 @@ public class Position {
     public String toSquare() {
         StringBuilder stringBuilder = new StringBuilder();
         return stringBuilder.append((char) ('a' + this.xPos)).append((char) ('1' + this.yPos)).toString();
-    }
-
-    public Position getMovedPosition(int xDegree, int yDegree) {
-        return new Position(this.xPos + xDegree, this.yPos + yDegree);
     }
 
     @Override

@@ -11,25 +11,31 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class KingTest {
 
+    King king = King.createBlack(new Position("d4"));
+    List<Direction> everyDirections = Direction.everyDirection();
+
     @Test
     @DisplayName("킹은 모든 방향으로 이동할 수 있다")
     void everyDirectionMove() {
-        King king = King.createBlack(new Position("d4"));
-        List<Direction> directions = Direction.everyDirection();
-
-        for(Direction direction : directions) {
-            assertTrue(king.verifyMovePosition(king.getPosition().getMovedPosition(direction.getXDegree(), direction.getYDegree())));
+        for (Direction direction : everyDirections) {
+            assertTrue(verifyMovePosition(king, direction.getXDegree(), direction.getYDegree()));
         }
     }
 
     @Test
-    @DisplayName("킹은 두 칸을 이동할 수 없다")
+    @DisplayName("킹은 두 칸 이상 이동할 수 없다")
     void twoSquareMove() {
-        King king = King.createBlack(new Position("d4"));
-        List<Direction> directions = Direction.everyDirection();
-
-        for(Direction direction : directions) {
-            assertFalse(king.verifyMovePosition(king.getPosition().getMovedPosition(direction.getXDegree() * 2, direction.getYDegree() * 2)));
+        for (int distance = 2; distance < 4; distance++) {
+            for (Direction direction : everyDirections) {
+                int xDegree = direction.getXDegree() * distance;
+                int yDegree = direction.getYDegree() * distance;
+                assertFalse(verifyMovePosition(king, xDegree, yDegree));
+            }
         }
+    }
+
+    private boolean verifyMovePosition(Piece piece, int xDegree, int yDegree) {
+        Position targetPosition = Position.createWithDegreeOffset(piece.getPosition(), xDegree, yDegree);
+        return piece.verifyMovePosition(targetPosition);
     }
 }
