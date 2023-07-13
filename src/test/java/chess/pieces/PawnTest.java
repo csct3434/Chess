@@ -57,4 +57,45 @@ class PawnTest {
         }
     }
 
+    @Test
+    @DisplayName("폰은 두 칸 이상 이동할 수 없다")
+    void multipleMove() {
+        for(int distance = 2; distance < 4; distance++) {
+            Pawn pawn = Pawn.createWhite(new Position("d1"));
+            for (Direction direction : whitePawnDirections) {
+                assertFalse(verifyMovePosition(pawn, distance, distance));
+            }
+        }
+    }
+
+    @Test
+    @DisplayName("폰은 초기 위치에서 앙 파상을 할 수 있다")
+    void verifyEnPassant1() {
+        int initialWhitePawnYPosition = 1;
+        int initialBlackPawnYPosition = 6;
+
+        for(int xPos = 0; xPos < Board.LENGTH; xPos++) {
+            Pawn whitePawn = Pawn.createWhite(new Position(xPos, initialWhitePawnYPosition));
+            Pawn blackPawn = Pawn.createBlack(new Position(xPos, initialBlackPawnYPosition));
+
+            assertTrue(verifyMovePosition(whitePawn, 0, 2));
+            assertTrue(verifyMovePosition(blackPawn, 0, -2));
+        }
+    }
+
+    @Test
+    @DisplayName("폰은 초기 위치를 벗어난 곳에서 앙 파상을 할 수 없다")
+    void verifyEnPassant2() {
+        int nonInitialWhitePawnYPosition = 3;
+        int nonInitialBlackPawnYPosition = 4;
+
+        for(int xPos = 0; xPos < Board.LENGTH; xPos++) {
+            Pawn whitePawn = Pawn.createWhite(new Position(xPos, nonInitialWhitePawnYPosition));
+            Pawn blackPawn = Pawn.createBlack(new Position(xPos, nonInitialBlackPawnYPosition));
+
+            assertFalse(verifyMovePosition(whitePawn, 0, 2));
+            assertFalse(verifyMovePosition(blackPawn, 0, -2));
+        }
+    }
+
 }
