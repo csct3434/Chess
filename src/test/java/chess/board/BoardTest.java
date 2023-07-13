@@ -6,6 +6,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static utils.StringUtils.appendNewLine;
 
 class BoardTest {
     Board board;
@@ -54,7 +55,7 @@ class BoardTest {
     }
 
     @Test
-    @DisplayName("좌표를 사용하여 기물을 조회한다")
+    @DisplayName("좌표를 사용하여 기물을 조회할 수 있다")
     void findPiece() throws Exception {
         board.initialize();
 
@@ -69,14 +70,45 @@ class BoardTest {
     }
 
     @Test
-    @DisplayName("특정 열에 있는 폰의 개수를 색상별로 확인한다")
+    @DisplayName("특정 열에 있는 폰의 개수를 색상별로 확인할 수 있다")
     void countPawnsInFile() {
         board.initialize();
+
         Position position = new Position("b3");
         board.addPiece(position, Pawn.createBlack(position));
 
-        int blackPawnsCountInFileB = 2, whitePawnsCountInFileB = 1;
-        assertEquals(blackPawnsCountInFileB, board.countPawnsByColorInFile(Color.BLACK, position.getXPos()));
-        assertEquals(whitePawnsCountInFileB, board.countPawnsByColorInFile(Color.WHITE, position.getXPos()));
+        int expectedBlackPawnsCount = 2;
+        int expectedWhitePawnsCount = 1;
+
+        assertEquals(expectedBlackPawnsCount, board.countPawnsByColorInFile(Color.BLACK, position.getXPos()));
+        assertEquals(expectedWhitePawnsCount, board.countPawnsByColorInFile(Color.WHITE, position.getXPos()));
+    }
+
+    @Test
+    @DisplayName("초기화 된 체스판의 출력을 검증한다")
+    void boardRepresentationTest() {
+        board.initialize();
+
+        String blankRank = appendNewLine("........");
+
+        assertEquals(
+                appendNewLine("RNBQKBNR") +
+                        appendNewLine("PPPPPPPP") +
+                        blankRank + blankRank + blankRank + blankRank +
+                        appendNewLine("pppppppp") +
+                        appendNewLine("rnbqkbnr"),
+                board.getBoardRepresentation());
+    }
+
+    @Test
+    @DisplayName("기물이 없는 체스판의 출력을 검증한다")
+    void emptyBoardRepresentationTest() {
+        board.initializeEmpty();
+
+        String blankRank = appendNewLine("........");
+
+        assertEquals(
+                blankRank + blankRank + blankRank + blankRank + blankRank + blankRank + blankRank + blankRank,
+                board.getBoardRepresentation());
     }
 }
