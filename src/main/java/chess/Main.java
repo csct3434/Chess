@@ -80,7 +80,6 @@ public class Main {
             String targetSquare = arguments[2];
 
             chessGame.move(sourceSquare, targetSquare);
-            chessGame.addTurnCount();
             chessView.showBoard();
         } catch (RuntimeException exception) {
             chessView.showWarningMessage(exception.getMessage());

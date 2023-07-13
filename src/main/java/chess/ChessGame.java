@@ -72,6 +72,8 @@ public class ChessGame {
 
         movePieceTo(sourcePiece, targetPiece.getPosition());
         movePieceTo(Blank.create(targetPiece.getPosition()), sourcePiece.getPosition());
+
+        turnCount += 1;
     }
 
     private void checkKingDied(Piece targetPiece) {
@@ -82,10 +84,6 @@ public class ChessGame {
                 blackKingDead = true;
             }
         }
-    }
-
-    public void addTurnCount() {
-        this.turnCount += 1;
     }
 
     private double calculatePlusPoint(Color color) {
