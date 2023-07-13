@@ -108,10 +108,9 @@ public class ChessGame {
     }
 
     private void verifyMoveConditions(Piece sourcePiece, Piece targetPiece) {
-        boolean isMovePossible =
-                sourcePiece.verifyMovePosition(targetPiece.getPosition())
+        boolean isMovePossible = sourcePiece.verifyMovePosition(targetPiece.getPosition())
                         && hasNoObstructionWhileMove(sourcePiece, targetPiece)
-                        && !(sourcePiece.checkColor(targetPiece.getColor()))
+                        && !sourcePiece.checkColor(targetPiece.getColor())
                         && verifyAttack(sourcePiece, targetPiece);
 
         if (!isMovePossible) {

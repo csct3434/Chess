@@ -77,13 +77,13 @@ public class Main {
 
             chessGame.move(sourceSquare, targetSquare);
             chessView.showBoard();
+
+            if(chessGame.isKingDead()) {
+                showGameResult();
+                exit(0);
+            }
         } catch (RuntimeException exception) {
             chessView.showWarningMessage(exception.getMessage());
-        }
-
-        if(chessGame.isKingDead()) {
-            showGameResult();
-            exit(0);
         }
     }
 
