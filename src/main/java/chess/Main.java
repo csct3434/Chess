@@ -31,7 +31,7 @@ public class Main {
 
             if (userInput.equals("start")) {
                 start();
-            } else if (userInput.equals("move")) {
+            } else if (userInput.startsWith("move")) {
                 move(userInput);
             } else if (userInput.equals("end")) {
                 chessView.showMessage("게임을 종료합니다");
