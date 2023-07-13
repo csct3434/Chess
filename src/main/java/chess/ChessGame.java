@@ -57,21 +57,15 @@ public class ChessGame {
         Position sourcePosition = new Position(sourceSquare);
         Position targetPosition = new Position(targetSquare);
 
-        if(!verifyDistinctPosition(sourcePosition, targetPosition)) {
-            return;
-        }
+        verifyDistinctPosition(sourcePosition, targetPosition);
 
         Piece sourcePiece = board.findPiece(sourcePosition);
         Piece targetPiece = board.findPiece(targetPosition);
 
-        if (verifyMoveConditions(sourcePiece, targetPiece)) {
-            movePieceTo(sourcePiece, targetPiece.getPosition());
-            movePieceTo(Blank.create(targetPiece.getPosition()), sourcePiece.getPosition());
-        }
-    }
+        verifyMoveConditions(sourcePiece, targetPiece);
 
-    private static boolean verifyDistinctPosition(Position sourcePosition, Position targetPosition) {
-        return !sourcePosition.equals(targetPosition);
+        movePieceTo(sourcePiece, targetPiece.getPosition());
+        movePieceTo(Blank.create(targetPiece.getPosition()), sourcePiece.getPosition());
     }
 
     private double calculatePlusPoint(Color color) {
@@ -89,22 +83,21 @@ public class ChessGame {
         return PENALTY_POINT * penaltyCount;
     }
 
-    private boolean verifyMoveConditions(Piece sourcePiece, Piece targetPiece) {
-        return sourcePiece.verifyMovePosition(targetPiece.getPosition())
+    private static void verifyDistinctPosition(Position sourcePosition, Position targetPosition) {
+        if(sourcePosition.equals(targetPosition)) {
+            throw new IllegalArgumentException("동일한 위치로 이동할 수 없습니다.");
+        }
+    }
+
+    private void verifyMoveConditions(Piece sourcePiece, Piece targetPiece) {
+        boolean isPossibleMove = sourcePiece.verifyMovePosition(targetPiece.getPosition())
                 && hasNoObstructionWhileMove(sourcePiece, targetPiece)
                 && !(sourcePiece.checkColor(targetPiece.getColor()))
                 && verifyAttack(sourcePiece, targetPiece);
-    }
 
-    private boolean verifyAttack(Piece sourcePiece, Piece targetPiece) {
-        if (targetPiece.checkColor(Color.NO_COLOR) || !sourcePiece.checkType(Type.PAWN)) {
-            return true;
+        if(!isPossibleMove) {
+            throw new RuntimeException("이동할 수 없습니다.");
         }
-        return verifyPawnAttack(sourcePiece, targetPiece);
-    }
-
-    private boolean verifyPawnAttack(Piece sourcePiece, Piece targetPiece) {
-        return sourcePiece.getPosition().getXPos() != targetPiece.getPosition().getXPos();
     }
 
     private boolean hasNoObstructionWhileMove(Piece sourcePiece, Piece targetPiece) {
@@ -112,6 +105,13 @@ public class ChessGame {
             return true;
         }
         return verifyPathClear(sourcePiece.getPosition(), targetPiece.getPosition());
+    }
+
+    private boolean verifyAttack(Piece sourcePiece, Piece targetPiece) {
+        if (targetPiece.checkColor(Color.NO_COLOR) || !sourcePiece.checkType(Type.PAWN)) {
+            return true;
+        }
+        return verifyPawnAttack(sourcePiece, targetPiece);
     }
 
     private boolean verifyPathClear(Position sourcePosition, Position targetPosition) {
@@ -128,6 +128,10 @@ public class ChessGame {
         }
 
         return true;
+    }
+
+    private boolean verifyPawnAttack(Piece sourcePiece, Piece targetPiece) {
+        return sourcePiece.getPosition().getXPos() != targetPiece.getPosition().getXPos();
     }
 
     private int getXDegree(Position sourcePosition, Position targetPosition) {
