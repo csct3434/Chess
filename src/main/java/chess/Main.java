@@ -9,7 +9,7 @@ public class Main {
 
     private static ChessView chessView;
     private static ChessGame chessGame;
-    private static Scanner sc;
+    private static Scanner scanner;
     private static boolean isStarted;
 
     public static void main(String[] args) {
@@ -33,7 +33,7 @@ public class Main {
     }
 
     private static void init() {
-        sc = new Scanner(System.in);
+        scanner = new Scanner(System.in);
         Board board = new Board();
         chessGame = new ChessGame(board);
         chessView = new ChessView(board);
@@ -42,7 +42,7 @@ public class Main {
 
     private static String getUserInput() {
         System.out.print("userInput: ");
-        return sc.nextLine().trim();
+        return scanner.nextLine().trim();
     }
 
     private static void start() {

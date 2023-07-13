@@ -45,8 +45,8 @@ public class Position {
     }
 
     public String toSquare() {
-        StringBuilder sb = new StringBuilder();
-        return sb.append((char) ('a' + this.xPos)).append((char) ('1' + this.yPos)).toString();
+        StringBuilder stringBuilder = new StringBuilder();
+        return stringBuilder.append((char) ('a' + this.xPos)).append((char) ('1' + this.yPos)).toString();
     }
 
     public Position getMovedPosition(int xDegree, int yDegree) {

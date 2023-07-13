@@ -115,12 +115,12 @@ public class Rank {
     }
 
     public String getRepresentation() {
-        StringBuilder sb = new StringBuilder();
+        StringBuilder stringBuilder = new StringBuilder();
 
         for (int xPos = 0; xPos < Board.LENGTH; xPos++) {
-            sb.append(pieces.get(xPos).getRepresentation());
+            stringBuilder.append(pieces.get(xPos).getRepresentation());
         }
 
-        return StringUtils.appendNewLine(sb.toString());
+        return StringUtils.appendNewLine(stringBuilder.toString());
     }
 }
