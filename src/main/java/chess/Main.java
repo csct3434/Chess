@@ -5,6 +5,8 @@ import utils.StringUtils;
 
 import java.util.Scanner;
 
+import static java.lang.System.exit;
+
 public class Main {
 
     private static ChessView chessView;
@@ -38,12 +40,6 @@ public class Main {
                 chessView.showMessage("게임을 종료합니다");
                 break;
             }
-
-            if(chessGame.isKingDead()) {
-                showGameResult();
-                break;
-            }
-
         }
     }
 
@@ -83,6 +79,11 @@ public class Main {
             chessView.showBoard();
         } catch (RuntimeException exception) {
             chessView.showWarningMessage(exception.getMessage());
+        }
+
+        if(chessGame.isKingDead()) {
+            showGameResult();
+            exit(0);
         }
     }
 
