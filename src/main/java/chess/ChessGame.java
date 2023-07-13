@@ -111,7 +111,7 @@ public class ChessGame {
         boolean isMovePossible = sourcePiece.verifyMovePosition(targetPiece.getPosition())
                         && hasNoObstructionWhileMove(sourcePiece, targetPiece)
                         && !sourcePiece.checkColor(targetPiece.getColor())
-                        && verifyAttack(sourcePiece, targetPiece);
+                        && verifySourcePieceMobility(sourcePiece, targetPiece);
 
         if (!isMovePossible) {
             throw new RuntimeException("해당 위치로 이동할 수 없습니다.");
@@ -141,7 +141,7 @@ public class ChessGame {
         return true;
     }
 
-    private boolean verifyAttack(Piece sourcePiece, Piece targetPiece) {
+    private boolean verifySourcePieceMobility(Piece sourcePiece, Piece targetPiece) {
         if (sourcePiece.checkType(Type.PAWN)) {
             return verifyPawnAttack(sourcePiece, targetPiece);
         }
