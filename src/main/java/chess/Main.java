@@ -9,7 +9,7 @@ public class Main {
     private static ChessView chessView;
     private static ChessGame chessGame;
     private static Scanner scanner;
-    private static boolean isStarted;
+    private static boolean gameStart;
 
     public static void main(String[] args) {
         init();
@@ -22,7 +22,7 @@ public class Main {
 
             if (userInput.equals("start")) {
                 start();
-            } else if (userInput.startsWith("move")) {
+            } else if (userInput.equals("move")) {
                 move(userInput);
             } else if (userInput.equals("end")) {
                 end();
@@ -32,11 +32,11 @@ public class Main {
     }
 
     private static void init() {
-        scanner = new Scanner(System.in);
         Board board = new Board();
+        scanner = new Scanner(System.in);
         chessGame = new ChessGame(board);
         chessView = new ChessView(board);
-        isStarted = false;
+        gameStart = false;
     }
 
     private static String getUserInput() {
@@ -48,27 +48,36 @@ public class Main {
         System.out.println("게임을 시작합니다.");
         chessGame.initializeBoard();
         printBoard();
-        isStarted = true;
+        gameStart = true;
     }
 
     private static void move(String userInput) {
-        if (isStarted) {
+        try {
+            verifyGameStarted();
+
             String[] arguments = userInput.split(" ");
+            verifyMoveArguments(arguments);
+
             String sourceSquare = arguments[1];
             String targetSquare = arguments[2];
-
-            if (checkArgumentsLength(arguments)) {
-                chessGame.move(sourceSquare, targetSquare);
-            }
-
+            chessGame.move(sourceSquare, targetSquare);
+        } catch (RuntimeException exception) {
+            System.out.println(exception.getMessage());
+        } finally {
             printBoard();
-        } else {
-            System.out.println("게임이 시작되지 않았습니다 : start");
         }
     }
 
-    private static boolean checkArgumentsLength(String[] arguments) {
-        return arguments.length == 3 && arguments[1].length() == 2 && arguments[2].length() == 2;
+    private static void verifyMoveArguments(String[] arguments) throws IllegalArgumentException {
+        if(arguments.length != 3 || arguments[1].length() != 2 || arguments[2].length() != 2) {
+            throw new IllegalArgumentException("에러 : 잘못된 move 입력");
+        }
+    }
+
+    private static void verifyGameStarted() {
+        if(!gameStart) {
+            throw new IllegalArgumentException("게임이 시작되지 않았습니다 : start 입력");
+        }
     }
 
     private static void end() {
