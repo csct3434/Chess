@@ -24,7 +24,12 @@ class RookTest {
     @DisplayName("룩은 직선 방향으로 이동할 수 있다")
     void linearDirectionMove() {
         for (Direction direction : linearDirections) {
-            assertTrue(verifyMovePosition(rook, direction.getXDegree(), direction.getYDegree()));
+            for (int distance = 1; distance < 4; distance++) {
+                int xDegree = direction.getXDegree() * distance;
+                int yDegree = direction.getYDegree() * distance;
+
+                assertTrue(verifyMovePosition(rook, xDegree, yDegree));
+            }
         }
     }
 
