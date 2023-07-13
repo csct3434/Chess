@@ -108,10 +108,18 @@ public class ChessGame {
     }
 
     private boolean verifyAttack(Piece sourcePiece, Piece targetPiece) {
-        if (targetPiece.checkColor(Color.NO_COLOR) || !sourcePiece.checkType(Type.PAWN)) {
-            return true;
+        if (sourcePiece.checkType(Type.PAWN)) {
+            return verifyPawnAttack(sourcePiece, targetPiece);
         }
-        return verifyPawnAttack(sourcePiece, targetPiece);
+        return true;
+    }
+
+    private boolean verifyPawnAttack(Piece sourcePiece, Piece targetPiece) {
+        boolean isLinearMove = sourcePiece.getPosition().getXPos() == targetPiece.getPosition().getXPos();
+        if(isLinearMove) {
+            return targetPiece.checkType(Type.NO_PIECE);
+        }
+        return !targetPiece.checkType(Type.NO_PIECE);
     }
 
     private boolean verifyPathClear(Position sourcePosition, Position targetPosition) {
@@ -128,10 +136,6 @@ public class ChessGame {
         }
 
         return true;
-    }
-
-    private boolean verifyPawnAttack(Piece sourcePiece, Piece targetPiece) {
-        return sourcePiece.getPosition().getXPos() != targetPiece.getPosition().getXPos();
     }
 
     private int getXDegree(Position sourcePosition, Position targetPosition) {
