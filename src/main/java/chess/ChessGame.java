@@ -177,7 +177,7 @@ public class ChessGame {
     }
 
     public String getTurnPresentation() {
-        if(turnCount == 1) {
+        if(turnCount % 2 == 1) {
             return "(백)";
         }
         return "(흑)";
