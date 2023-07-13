@@ -15,7 +15,7 @@ public class ChessView {
     }
 
     public void showMessage(String message) {
-        System.out.println("message = " + message);
+        System.out.println(message);
     }
 
     public String showBoard() {
