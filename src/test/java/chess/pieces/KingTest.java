@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
+import static chess.pieces.PieceTestUtil.verifyMovePosition;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -24,7 +25,7 @@ class KingTest {
 
     @Test
     @DisplayName("킹은 두 칸 이상 이동할 수 없다")
-    void twoSquareMove() {
+    void multipleMove() {
         for (int distance = 2; distance < 4; distance++) {
             for (Direction direction : everyDirections) {
                 int xDegree = direction.getXDegree() * distance;
@@ -34,8 +35,4 @@ class KingTest {
         }
     }
 
-    private boolean verifyMovePosition(Piece piece, int xDegree, int yDegree) {
-        Position targetPosition = Position.createWithDegreeOffset(piece.getPosition(), xDegree, yDegree);
-        return piece.verifyMovePosition(targetPosition);
-    }
 }

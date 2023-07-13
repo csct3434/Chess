@@ -8,6 +8,8 @@ import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
+import static chess.pieces.PieceTestUtil.verifyMovePosition;
+
 class KnightTest {
 
     Knight knight;
@@ -28,17 +30,12 @@ class KnightTest {
     }
 
     @Test
-    @DisplayName("나이트는 NNE, NNW, SSE, SSW, EEN, EES, WWN, WWS 방향 외에는 이동할 수 있다")
+    @DisplayName("나이트는 NNE, NNW, SSE, SSW, EEN, EES, WWN, WWS 방향 외에는 이동할 수 없다")
     void invalidKnightDirectionMove() {
         for (Direction direction : everyDirections) {
             if (!knightDirections.contains(direction)) {
                 Assertions.assertFalse(verifyMovePosition(knight, direction.getXDegree(), direction.getYDegree()));
             }
         }
-    }
-
-    private boolean verifyMovePosition(Piece piece, int xDegree, int yDegree) {
-        Position targetPosition = Position.createWithDegreeOffset(piece.getPosition(), xDegree, yDegree);
-        return piece.verifyMovePosition(targetPosition);
     }
 }

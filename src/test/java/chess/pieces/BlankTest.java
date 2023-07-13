@@ -5,6 +5,7 @@ import chess.board.Position;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import static chess.pieces.PieceTestUtil.verifyMovePosition;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 
 class BlankTest {
@@ -18,10 +19,5 @@ class BlankTest {
                 assertFalse(verifyMovePosition(blank, xDegree, yDegree));
             }
         }
-    }
-
-    private boolean verifyMovePosition(Piece piece, int xDegree, int yDegree) {
-        Position targetPosition = Position.createWithDegreeOffset(piece.getPosition(), xDegree, yDegree);
-        return piece.verifyMovePosition(targetPosition);
     }
 }
