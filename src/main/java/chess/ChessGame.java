@@ -91,8 +91,11 @@ public class ChessGame {
         turnCount += 1;
     }
 
-
     private void verifyTurn(Color color) {
+        if(color == Color.NO_COLOR) {
+            throw new RuntimeException("빈 기물은 이동시킬 수 없습니다.");
+        }
+
         if ((turnCount % 2 == 1 && color != Color.WHITE) || (turnCount % 2 == 0 && color != Color.BLACK)) {
             throw new RuntimeException("상대방 기물은 이동시킬 수 없습니다.");
         }
@@ -207,5 +210,9 @@ public class ChessGame {
 
     public double getBlackPoint() {
         return calculatePoint(Color.BLACK);
+    }
+
+    public int getTurnCount() {
+        return this.turnCount;
     }
 }
