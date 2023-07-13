@@ -5,18 +5,24 @@ public class Position {
     private final int yPos;
 
     public Position(String square) throws IllegalArgumentException {
-        char file = square.charAt(0);
-        char rank = square.charAt(1);
+        char file, rank;
+
+        square = square.toLowerCase();
+
+        file = square.charAt(0);
+        rank = square.charAt(1);
+
         if (!(file >= 'a' && file <= 'h') || !(rank >= '1' && rank <= '8')) {
-            throw new IllegalArgumentException("유효하지 않은 좌표입니다 : " + square);
+            throw new IllegalArgumentException("유효하지 않은 좌표입니다.");
         }
+
         this.xPos = file - 'a';
         this.yPos = rank - '1';
     }
 
     public Position(int xPos, int yPos) throws IllegalArgumentException {
         if (xPos < 0 || xPos > 7 || yPos < 0 || yPos > 7) {
-            throw new IllegalArgumentException("유효하지 않은 좌표입니다." + toSquare(xPos, yPos));
+            throw new IllegalArgumentException("유효하지 않은 좌표입니다.");
         }
         this.xPos = xPos;
         this.yPos = yPos;

@@ -16,9 +16,11 @@ public class ChessGame {
     private static final double PENALTY_POINT = 0.5;
 
     private final Board board;
+    private int turnCount;
 
     ChessGame(Board board) {
         this.board = board;
+        this.turnCount = 1;
     }
 
     public void initializeBoard() {
@@ -54,18 +56,20 @@ public class ChessGame {
     }
 
     public void move(String sourceSquare, String targetSquare) {
-        Position sourcePosition = new Position(sourceSquare);
-        Position targetPosition = new Position(targetSquare);
+        Piece sourcePiece = board.findPiece(new Position(sourceSquare));
+        Piece targetPiece = board.findPiece(new Position(targetSquare));
 
-        verifyDistinctPosition(sourcePosition, targetPosition);
-
-        Piece sourcePiece = board.findPiece(sourcePosition);
-        Piece targetPiece = board.findPiece(targetPosition);
+        verifyTurn(sourcePiece.getColor());
+        verifyDistinctPosition(sourcePiece.getPosition(), targetPiece.getPosition());
 
         verifyMoveConditions(sourcePiece, targetPiece);
 
         movePieceTo(sourcePiece, targetPiece.getPosition());
         movePieceTo(Blank.create(targetPiece.getPosition()), sourcePiece.getPosition());
+    }
+
+    public void addTurnCount() {
+        this.turnCount += 1;
     }
 
     private double calculatePlusPoint(Color color) {
@@ -96,7 +100,7 @@ public class ChessGame {
                 && verifyAttack(sourcePiece, targetPiece);
 
         if(!isPossibleMove) {
-            throw new RuntimeException("이동할 수 없습니다.");
+            throw new RuntimeException("해당 위치로 이동할 수 없습니다.");
         }
     }
 
@@ -154,6 +158,19 @@ public class ChessGame {
 
     private void movePieceTo(Piece piece, Position position) {
         board.addPiece(position, piece.cloneExceptPosition(position));
+    }
+
+    public String getTurnPresentation() {
+        if(turnCount == 1) {
+            return "(백)";
+        }
+        return "(흑)";
+    }
+
+    private void verifyTurn(Color color) {
+        if((turnCount % 2 == 1 && color != Color.WHITE) || (turnCount % 2 == 0 && color != Color.BLACK)) {
+            throw new IllegalArgumentException("상대방 기물은 이동시킬 수 없습니다.");
+        }
     }
 
 }

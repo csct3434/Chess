@@ -1,6 +1,7 @@
 package chess;
 
 import chess.board.Board;
+import utils.StringUtils;
 
 import java.util.Scanner;
 
@@ -26,7 +27,7 @@ public class Main {
 
     public static void run() {
         while (true) {
-            chessView.showPrompt();
+            showPrompt();
             String userInput = scanner.nextLine().trim();
 
             if (userInput.equals("start")) {
@@ -40,8 +41,16 @@ public class Main {
         }
     }
 
+    private static void showPrompt() {
+        if(gameStart) {
+            chessView.showMessage(chessGame.getTurnPresentation() + ": ");
+            return;
+        }
+        chessView.showMessage("Enter 'start' to play game : ");
+    }
+
     private static void start() {
-        chessView.showMessage("게임을 시작합니다.");
+        chessView.showMessage(StringUtils.appendNewLine("게임을 시작합니다"));
         chessGame.initializeBoard();
         chessView.showBoard();
         gameStart = true;
@@ -56,22 +65,24 @@ public class Main {
 
             String sourceSquare = arguments[1];
             String targetSquare = arguments[2];
+
             chessGame.move(sourceSquare, targetSquare);
+            chessGame.addTurnCount();
             chessView.showBoard();
         } catch (RuntimeException exception) {
-            chessView.showMessage(exception.getMessage());
+            chessView.showWarningMessage(exception.getMessage());
         }
     }
 
     private static void verifyMoveArguments(String[] arguments) {
         if(arguments.length != 3 || arguments[1].length() != 2 || arguments[2].length() != 2) {
-            throw new IllegalArgumentException("에러 : 잘못된 move 입력");
+            throw new IllegalArgumentException("move 명령 형식 오류.");
         }
     }
 
     private static void verifyGameStarted() {
         if(!gameStart) {
-            throw new IllegalArgumentException("게임이 시작되지 않았습니다 : start 입력");
+            throw new IllegalArgumentException("게임이 시작되지 않았습니다");
         }
     }
 }

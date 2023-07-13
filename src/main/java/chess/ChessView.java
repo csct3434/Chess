@@ -1,6 +1,7 @@
 package chess;
 
 import chess.board.Board;
+import utils.StringUtils;
 
 public class ChessView {
 
@@ -10,12 +11,17 @@ public class ChessView {
         this.board = board;
     }
 
-    public void showPrompt() {
-        System.out.print("userInput: ");
+    public void showMessage(String message) {
+        System.out.print(message);
     }
 
-    public void showMessage(String message) {
-        System.out.println(message);
+    public void showWarningMessage(String message) {
+        String warningMessage = new StringBuilder()
+                .append(StringUtils.NEWLINE)
+                .append(message)
+                .append(StringUtils.NEWLINE)
+                .toString();
+        System.out.println(warningMessage);
     }
 
     public String showBoard() {
