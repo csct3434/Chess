@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
-import static chess.pieces.PieceTestUtil.verifyMovePosition;
+import static chess.utils.PieceTestUtil.verifyMovePosition;
 
 class KnightTest {
 

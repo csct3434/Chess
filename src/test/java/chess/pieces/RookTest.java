@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
-import static chess.pieces.PieceTestUtil.verifyMovePosition;
+import static chess.utils.PieceTestUtil.verifyMovePosition;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 

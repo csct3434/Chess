@@ -5,7 +5,7 @@ import chess.board.Position;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import static chess.pieces.PieceTestUtil.verifyMovePosition;
+import static chess.utils.PieceTestUtil.verifyMovePosition;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 
 class BlankTest {

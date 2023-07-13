@@ -1,6 +1,7 @@
-package chess.pieces;
+package chess.utils;
 
 import chess.board.Position;
+import chess.pieces.Piece;
 
 public class PieceTestUtil {
     public static boolean verifyMovePosition(Piece piece, int xDegree, int yDegree) {
