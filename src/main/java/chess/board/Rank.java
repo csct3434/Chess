@@ -21,7 +21,7 @@ public class Rank {
 
     private void verifyPieceCount(List<Piece> pieces) {
         if (pieces.size() != Board.LENGTH) {
-            throw new IllegalArgumentException("Rank의 기물 개수가 8개가 아닙니다.");
+            throw new RuntimeException("Rank의 기물 개수가 8개가 아닙니다.");
         }
     }
 

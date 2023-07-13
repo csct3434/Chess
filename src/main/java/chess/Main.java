@@ -88,13 +88,13 @@ public class Main {
 
     private static void verifyMoveArguments(String[] arguments) {
         if(arguments.length != 3 || arguments[1].length() != 2 || arguments[2].length() != 2) {
-            throw new IllegalArgumentException("move 명령 형식 오류.");
+            throw new RuntimeException("move 명령 형식 오류.");
         }
     }
 
     private static void verifyGameStarted() {
         if(!gameStart) {
-            throw new IllegalArgumentException("게임이 시작되지 않았습니다");
+            throw new RuntimeException("게임이 시작되지 않았습니다");
         }
     }
 }

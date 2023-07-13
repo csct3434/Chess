@@ -47,6 +47,21 @@ public class ChessGame {
         return calculatePlusPoint(color) + calculatePenaltyPoint(color);
     }
 
+    private double calculatePlusPoint(Color color) {
+        return board.findPiecesByColor(color).stream()
+                .mapToDouble(Piece::getDefaultPoint)
+                .sum();
+    }
+
+    private double calculatePenaltyPoint(Color color) {
+        int penaltyCount = IntStream.range(0, Board.LENGTH)
+                .map(fileIndex -> board.countPawnsByColorInFile(color, fileIndex))
+                .filter(pawnsCountInFile -> pawnsCountInFile > 1)
+                .sum();
+
+        return PENALTY_POINT * penaltyCount;
+    }
+
     public List<Piece> sortPiecesByPointAscending(Color color) {
         List<Piece> pieces = board.findPiecesByColor(color);
         Collections.sort(pieces);
@@ -76,44 +91,27 @@ public class ChessGame {
         turnCount += 1;
     }
 
-    private void checkKingDied(Piece targetPiece) {
-        if (targetPiece.checkType(Type.KING)) {
-            if (targetPiece.checkColor(Color.WHITE)) {
-                whiteKingDead = true;
-            } else {
-                blackKingDead = true;
-            }
+
+    private void verifyTurn(Color color) {
+        if ((turnCount % 2 == 1 && color != Color.WHITE) || (turnCount % 2 == 0 && color != Color.BLACK)) {
+            throw new RuntimeException("상대방 기물은 이동시킬 수 없습니다.");
         }
-    }
-
-    private double calculatePlusPoint(Color color) {
-        return board.findPiecesByColor(color).stream()
-                .mapToDouble(Piece::getDefaultPoint)
-                .sum();
-    }
-
-    private double calculatePenaltyPoint(Color color) {
-        int penaltyCount = IntStream.range(0, Board.LENGTH)
-                .map(fileIndex -> board.countPawnsByColorInFile(color, fileIndex))
-                .filter(pawnsCountInFile -> pawnsCountInFile > 1)
-                .sum();
-
-        return PENALTY_POINT * penaltyCount;
     }
 
     private static void verifyDistinctPosition(Position sourcePosition, Position targetPosition) {
         if (sourcePosition.equals(targetPosition)) {
-            throw new IllegalArgumentException("동일한 위치로 이동할 수 없습니다.");
+            throw new RuntimeException("동일한 위치로 이동할 수 없습니다.");
         }
     }
 
     private void verifyMoveConditions(Piece sourcePiece, Piece targetPiece) {
-        boolean isPossibleMove = sourcePiece.verifyMovePosition(targetPiece.getPosition())
-                && hasNoObstructionWhileMove(sourcePiece, targetPiece)
-                && !(sourcePiece.checkColor(targetPiece.getColor()))
-                && verifyAttack(sourcePiece, targetPiece);
+        boolean isMovePossible =
+                sourcePiece.verifyMovePosition(targetPiece.getPosition())
+                        && hasNoObstructionWhileMove(sourcePiece, targetPiece)
+                        && !(sourcePiece.checkColor(targetPiece.getColor()))
+                        && verifyAttack(sourcePiece, targetPiece);
 
-        if (!isPossibleMove) {
+        if (!isMovePossible) {
             throw new RuntimeException("해당 위치로 이동할 수 없습니다.");
         }
     }
@@ -123,21 +121,6 @@ public class ChessGame {
             return true;
         }
         return verifyPathClear(sourcePiece.getPosition(), targetPiece.getPosition());
-    }
-
-    private boolean verifyAttack(Piece sourcePiece, Piece targetPiece) {
-        if (sourcePiece.checkType(Type.PAWN)) {
-            return verifyPawnAttack(sourcePiece, targetPiece);
-        }
-        return true;
-    }
-
-    private boolean verifyPawnAttack(Piece sourcePiece, Piece targetPiece) {
-        boolean isLinearMove = sourcePiece.getPosition().getXPos() == targetPiece.getPosition().getXPos();
-        if (isLinearMove) {
-            return targetPiece.checkType(Type.NO_PIECE);
-        }
-        return !targetPiece.checkType(Type.NO_PIECE);
     }
 
     private boolean verifyPathClear(Position sourcePosition, Position targetPosition) {
@@ -154,6 +137,21 @@ public class ChessGame {
         }
 
         return true;
+    }
+
+    private boolean verifyAttack(Piece sourcePiece, Piece targetPiece) {
+        if (sourcePiece.checkType(Type.PAWN)) {
+            return verifyPawnAttack(sourcePiece, targetPiece);
+        }
+        return true;
+    }
+
+    private boolean verifyPawnAttack(Piece sourcePiece, Piece targetPiece) {
+        boolean isLinearMove = sourcePiece.getPosition().getXPos() == targetPiece.getPosition().getXPos();
+        if (isLinearMove) {
+            return targetPiece.checkType(Type.NO_PIECE);
+        }
+        return !targetPiece.checkType(Type.NO_PIECE);
     }
 
     private int getXDegree(Position sourcePosition, Position targetPosition) {
@@ -174,6 +172,16 @@ public class ChessGame {
         board.addPiece(position, piece.cloneExceptPosition(position));
     }
 
+    private void checkKingDied(Piece targetPiece) {
+        if (targetPiece.checkType(Type.KING)) {
+            if (targetPiece.checkColor(Color.WHITE)) {
+                whiteKingDead = true;
+            } else {
+                blackKingDead = true;
+            }
+        }
+    }
+
     public String getTurnPresentation() {
         if (turnCount % 2 == 1) {
             return "(백)";
@@ -181,11 +189,6 @@ public class ChessGame {
         return "(흑)";
     }
 
-    private void verifyTurn(Color color) {
-        if ((turnCount % 2 == 1 && color != Color.WHITE) || (turnCount % 2 == 0 && color != Color.BLACK)) {
-            throw new IllegalArgumentException("상대방 기물은 이동시킬 수 없습니다.");
-        }
-    }
 
     public boolean isKingDead() {
         return whiteKingDead || blackKingDead;
