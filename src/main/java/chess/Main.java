@@ -40,14 +40,14 @@ public class Main {
             }
 
             if(chessGame.isKingDead()) {
-                showEndingScreen();
+                showGameResult();
                 break;
             }
 
         }
     }
 
-    private static void showEndingScreen() {
+    private static void showGameResult() {
         String winner = chessGame.getWinner();
         double whitePoint = chessGame.getWhitePoint();
         double blackPoint = chessGame.getBlackPoint();
