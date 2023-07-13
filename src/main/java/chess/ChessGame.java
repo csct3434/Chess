@@ -152,7 +152,7 @@ public class ChessGame {
             if (!board.findPiece(intermediatePosition).checkType(Type.NO_PIECE)) {
                 return false;
             }
-            intermediatePosition = Position.createWithDegreeOffset(sourcePosition, xDegree, yDegree);
+            intermediatePosition = Position.createWithDegreeOffset(intermediatePosition, xDegree, yDegree);
         }
 
         return true;
